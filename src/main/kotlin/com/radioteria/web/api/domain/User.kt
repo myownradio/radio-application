@@ -5,10 +5,15 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
-class User {
+class User() {
     @Id
     @GeneratedValue
     var id: Long? = null
+    var email: String = ""
+    var name: String = ""
 
-    lateinit var name: String
+    constructor(email: String = "", name: String = "") : this() {
+        this.email = email
+        this.name = name
+    }
 }
