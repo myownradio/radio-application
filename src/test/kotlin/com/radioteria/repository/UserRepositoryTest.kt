@@ -1,9 +1,7 @@
 package com.radioteria.repository
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener
-import com.github.springtestdbunit.annotation.DatabaseOperation
 import com.github.springtestdbunit.annotation.DatabaseSetup
-import com.github.springtestdbunit.annotation.DatabaseTearDown
 import com.radioteria.domain.entity.User
 import com.radioteria.domain.repository.UserRepository
 import org.junit.Test
