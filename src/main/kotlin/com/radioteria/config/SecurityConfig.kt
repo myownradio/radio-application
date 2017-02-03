@@ -8,6 +8,6 @@ import org.springframework.security.config.annotation.authentication.configurers
 class SecurityConfig : GlobalAuthenticationConfigurerAdapter() {
     override fun init(auth: AuthenticationManagerBuilder) {
         auth.inMemoryAuthentication()
-                .withUser("admin").password("admin").roles("USER", "ADMIN", "ACTUATOR")
+                .withUser("admin").password("admin").roles("USER", "ADMIN")
     }
 }

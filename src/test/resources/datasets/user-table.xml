@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <users id="1"
+          email="sam@foo.com"
+          name="Sam Fisher"
+          password="GkyxE8Fts6aHBQxs"
+          status="ACTIVE"
+          role="ADMIN" />
+
+    <users id="2"
+          email="mat@foo.com"
+          name="Mathew Ryan"
+          password="LHzxdqkRPGKPdcY6"
+          status="ACTIVE"
+          role="USER" />
+
+    <users id="3"
+           email="bob@foo.com"
+           name="Bob Dylan"
+           password="S4BcdadcKNc75L68"
+           status="INACTIVE"
+           role="USER" />
+
+    <users id="4"
+           email="jack@foo.com"
+           name="Jack Pack"
+           password="WpnMXCqcWHn4KLzn"
+           status="BANNED"
+           role="USER" />
+
+    <users id="5"
+           email="alan@foo.com"
+           name="Alan Dee"
+           password="r3Hgpp5xLyRnW95n"
+           status="SUSPENDED"
+           role="USER" />
+</dataset>
