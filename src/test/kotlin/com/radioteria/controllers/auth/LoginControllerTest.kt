@@ -2,6 +2,7 @@ package com.radioteria.controllers.auth
 
 import com.radioteria.controllers.AbstractControllerTest
 import org.junit.Test
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -20,6 +21,7 @@ class LoginControllerTest : AbstractControllerTest() {
     @Test
     fun loginWithoutCredentials() {
         val request = post(API_LOGIN_ENDPOINT)
+                .with(csrf())
 
         mvc.perform(request).andExpect(status().isUnauthorized)
     }
@@ -27,6 +29,7 @@ class LoginControllerTest : AbstractControllerTest() {
     @Test
     fun loginWithWrongCredentials() {
         val request = post(API_LOGIN_ENDPOINT)
+                .with(csrf())
                 .param("email", WRONG_EMAIL)
                 .param("password", WRONG_PASSWORD)
 
@@ -36,6 +39,7 @@ class LoginControllerTest : AbstractControllerTest() {
     @Test
     fun loginWithCorrectCredentials() {
         val request = post(API_LOGIN_ENDPOINT)
+                .with(csrf())
                 .param("email", CORRECT_EMAIL)
                 .param("password", CORRECT_PASSWORD)
 
@@ -45,6 +49,7 @@ class LoginControllerTest : AbstractControllerTest() {
     @Test
     fun foo() {
         val request = post("/foo")
+                .with(csrf())
 
         mvc.perform(request).andExpect(status().isUnauthorized)
     }

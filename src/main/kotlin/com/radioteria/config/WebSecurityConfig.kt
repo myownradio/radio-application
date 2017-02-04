@@ -15,20 +15,20 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     @Autowired private lateinit var userDetailsService: UserDetailsService
 
     override fun configure(http: HttpSecurity) {
-        http.csrf().disable()
+        http.httpBasic()
+                .authenticationEntryPoint { request, response, exception ->
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+                }
 
-        http.httpBasic().authenticationEntryPoint { request, response, exception ->
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
-        }
-
-        http.formLogin().usernameParameter("email")
-        http.formLogin().loginProcessingUrl("/api/auth/login")
-        http.formLogin().successHandler { request, response, authentication ->
-            response.status = HttpServletResponse.SC_OK
-        }
-        http.formLogin().failureHandler { request, response, exception ->
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
-        }
+        http.formLogin()
+                .usernameParameter("email")
+                .loginProcessingUrl("/api/auth/login")
+                .successHandler { request, response, authentication ->
+                    response.status = HttpServletResponse.SC_OK
+                }
+                .failureHandler { request, response, exception ->
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+                }
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {
