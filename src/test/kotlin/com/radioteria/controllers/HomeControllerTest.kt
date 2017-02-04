@@ -11,16 +11,12 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@RunWith(SpringRunner::class)
-@WebMvcTest
-class HomeControllerTest {
-
-    @Autowired lateinit var mvc: MockMvc
+class HomeControllerTest : AbstractControllerTest() {
 
     @Test
     fun mustBeDeniedForGuestUser() {
         mvc.perform(get("/"))
-                .andExpect(status().isUnauthorized)
+                .andExpect(status().isNotFound)
     }
 
     @Test
