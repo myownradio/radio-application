@@ -1,12 +1,22 @@
 package com.radioteria.config
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.core.userdetails.UserDetailsService
 
 @Configuration
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
-    override fun configure(http: HttpSecurity) {
-        http.authorizeRequests().anyRequest().fullyAuthenticated()
+    @Autowired
+    lateinit private var userDetailsService: UserDetailsService
+
+    override fun configure(web: WebSecurity) {
+        web.ignoring().anyRequest()
+    }
+
+    override fun configure(auth: AuthenticationManagerBuilder) {
+        auth.userDetailsService(userDetailsService)
     }
 }
