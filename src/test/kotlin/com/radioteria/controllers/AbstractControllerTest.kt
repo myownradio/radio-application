@@ -14,7 +14,10 @@ import org.springframework.test.web.servlet.MockMvc
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestExecutionListeners(DbUnitTestExecutionListener::class, mergeMode = MergeMode.MERGE_WITH_DEFAULTS)
+@TestExecutionListeners(
+        DbUnitTestExecutionListener::class,
+        mergeMode = MergeMode.MERGE_WITH_DEFAULTS
+)
 @DatabaseSetup("classpath:datasets/user-table.xml")
 abstract class AbstractControllerTest {
     @Autowired lateinit var mvc: MockMvc
