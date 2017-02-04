@@ -4,7 +4,6 @@ import com.radioteria.controllers.AbstractControllerTest
 import org.junit.Test
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class LoginControllerTest : AbstractControllerTest() {

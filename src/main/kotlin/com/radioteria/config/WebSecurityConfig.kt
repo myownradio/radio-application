@@ -9,15 +9,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import javax.annotation.Resource
 import javax.servlet.http.HttpServletResponse
 
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
-    @Autowired private lateinit var userRepository: UserRepository
+
+    @Autowired
+    lateinit var userRepository: UserRepository
 
     override fun configure(http: HttpSecurity) {
         http.httpBasic()
