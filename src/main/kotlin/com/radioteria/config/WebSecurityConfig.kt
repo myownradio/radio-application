@@ -1,5 +1,6 @@
 package com.radioteria.config
 
+import com.radioteria.auth.UserEntityDetails
 import com.radioteria.domain.repository.UserRepository
 import com.radioteria.web.sendOk
 import org.springframework.beans.factory.annotation.Autowired
@@ -58,21 +59,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             val user = userRepository.findByEmail(username) ?:
                     throw UsernameNotFoundException("User with email \"$username\" does not exist.")
 
-            val authorities = userRoleToAuthorities(user.role)
-
-            User(user.email, user.password, authorities)
-        }
-    }
-
-    private fun userRoleToAuthorities(role: UserEntity.Role): Set<GrantedAuthority> {
-        return when (role) {
-            UserEntity.Role.USER -> setOf(
-                    SimpleGrantedAuthority("ROLE_USER")
-            )
-            UserEntity.Role.ADMIN -> setOf(
-                    SimpleGrantedAuthority("ROLE_USER"),
-                    SimpleGrantedAuthority("ROLE_ADMIN")
-            )
+            UserEntityDetails(user)
         }
     }
 }
