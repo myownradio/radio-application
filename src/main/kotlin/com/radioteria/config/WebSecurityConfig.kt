@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import javax.annotation.Resource
@@ -22,9 +23,12 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     lateinit var userRepository: UserRepository
 
     override fun configure(http: HttpSecurity) {
+        http.csrf()
+                .disable()
+
         http.httpBasic()
                 .authenticationEntryPoint { request, response, exception ->
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.message)
                 }
 
         http.formLogin()
@@ -34,7 +38,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                     response.status = HttpServletResponse.SC_OK
                 }
                 .failureHandler { request, response, exception ->
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.message)
                 }
     }
 

@@ -1,20 +1,23 @@
 package com.radioteria.web.controller
 
+import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class LoginController {
-    @RequestMapping(value = "/api/auth/login")
-    fun login() {
+    @Secured("ROLE_USER", "ROLE_ADMIN")
+    @RequestMapping(value = "/foo")
+    fun foo() {
 
     }
 
-    @Secured("ROLE_ADMIN")
-    @RequestMapping(value = "/foo", method = arrayOf(RequestMethod.POST))
-    fun foo() {
-
+    @RequestMapping("/me")
+    fun me(): ResponseEntity<Authentication> {
+        return ResponseEntity.ok(SecurityContextHolder.getContext().authentication)
     }
 }
