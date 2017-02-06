@@ -26,6 +26,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
     lateinit var userRepository: UserRepository
 
     override fun configure(http: HttpSecurity) {
+        http.anonymous()
+                .disable()
+
         http.csrf()
                 .disable()
 
