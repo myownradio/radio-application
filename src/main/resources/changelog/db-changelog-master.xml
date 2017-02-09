@@ -7,11 +7,14 @@
 
     <changeSet id="1" author="Roman">
         <createTable tableName="users">
-            <column name="id" type="int">
+            <column name="id" type="bigint unsigned" autoIncrement="true" incrementBy="1">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="email" type="varchar(64)">
-                <constraints nullable="false" unique="true"/>
+                <constraints uniqueConstraintName="email_index" nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(64)">
+                <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar(64)">
                 <constraints nullable="false"/>
@@ -21,6 +24,26 @@
             </column>
             <column name="role" type="varchar(8)">
                 <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Roman">
+        <createTable tableName="channels">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint unsigned">
+                <constraints nullable="false"
+                             foreignKeyName="channel_user_id_fk"
+                             referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="started_at" type="bigint">
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>

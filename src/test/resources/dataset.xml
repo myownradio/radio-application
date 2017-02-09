@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <users email="user@example.com" password="pwd" name="Bob Smith" status="ACTIVE" role="USER"/>
+    <users email="admin@example.com" password="pwd" name="Alan Way" status="ACTIVE" role="ADMIN"/>
+    <users email="new@mail.com" password="pwd" name="Sam Fisher" status="INACTIVE" role="USER"/>
+    <users email="bad@mail.com" password="bad" name="Cathy Parmelee" status="BANNED" role="USER"/>
+    <users email="bye@mail.com" password="bye" name="Maria Steele" status="SUSPENDED" role="USER"/>
+</dataset>

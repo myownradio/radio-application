@@ -14,8 +14,8 @@ class LoginControllerTest : AbstractControllerTest() {
         const val WRONG_EMAIL = "wrong@email.com"
         const val WRONG_PASSWORD = "sOmEwRoNgPaSsWoRd"
 
-        const val CORRECT_EMAIL = "mat@foo.com"
-        const val CORRECT_PASSWORD = "LHzxdqkRPGKPdcY6"
+        const val CORRECT_EMAIL = "user@example.com"
+        const val CORRECT_PASSWORD = "pwd"
     }
 
     @Test
