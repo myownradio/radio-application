@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataset>
-    <users email="user@example.com" password="pwd" name="Bob Smith" status="ACTIVE" role="USER"/>
-    <users email="admin@example.com" password="pwd" name="Alan Way" status="ACTIVE" role="ADMIN"/>
-    <users email="new@mail.com" password="pwd" name="Sam Fisher" status="INACTIVE" role="USER"/>
-    <users email="bad@mail.com" password="bad" name="Cathy Parmelee" status="BANNED" role="USER"/>
-    <users email="bye@mail.com" password="bye" name="Maria Steele" status="SUSPENDED" role="USER"/>
+    <users id="1" email="user@example.com" password="pwd" name="Bob Smith" status="ACTIVE" role="USER"/>
+    <users id="2" email="admin@example.com" password="pwd" name="Alan Way" status="ACTIVE" role="ADMIN"/>
+    <users id="3" email="new@mail.com" password="pwd" name="Sam Fisher" status="INACTIVE" role="USER"/>
+    <users id="4" email="bad@mail.com" password="bad" name="Cathy Parmelee" status="BANNED" role="USER"/>
+    <users id="5" email="bye@mail.com" password="bye" name="Maria Steele" status="SUSPENDED" role="USER"/>
+
+    <channels id="1" name="Radio #1" user_id="1" started_at="1486625038"/>
+    <channels id="2" name="Radio #2" user_id="1"/>
+    <channels id="3" name="Banned User's Radio" user_id="4"/>
+    <channels id="4" name="Deleted User's Radio" user_id="5"/>
 </dataset>
