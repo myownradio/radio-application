@@ -1,6 +1,6 @@
-package com.radioteria.controllers.auth
+package com.radioteria.controller.auth
 
-import com.radioteria.controllers.AbstractControllerTest
+import com.radioteria.controller.AbstractControllerTest
 import org.junit.Test
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post

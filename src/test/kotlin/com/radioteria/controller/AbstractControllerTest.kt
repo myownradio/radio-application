@@ -1,6 +1,6 @@
-package com.radioteria.controllers
+package com.radioteria.controller
 
-import com.radioteria.DatabaseTest
+import com.radioteria.annotation.DatabaseTest
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
