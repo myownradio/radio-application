@@ -4,6 +4,7 @@ import com.radioteria.auth.UserEntityDetails
 import com.radioteria.domain.repository.UserRepository
 import com.radioteria.web.sendOk
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
@@ -57,6 +58,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
         auth.userDetailsService(userDetailsService())
     }
 
+    @Bean
     override fun userDetailsService(): UserDetailsService {
         return UserDetailsService { username ->
             val user = userRepository.findByEmail(username) ?:

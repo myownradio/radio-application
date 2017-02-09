@@ -7,4 +7,5 @@ import org.springframework.data.repository.query.Param
 interface UserRepository : Repository<User, Long> {
     fun findOne(id: Long?): User?
     fun findByEmail(@Param(value = "email") email: String): User?
+    fun findAll(): List<User>
 }
