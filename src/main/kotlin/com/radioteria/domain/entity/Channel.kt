@@ -15,11 +15,15 @@ data class Channel(
         var name: String = "",
 
         @ManyToOne(targetEntity = User::class)
-        @JoinColumn(name = "user_id", nullable = false)
+        @JoinColumn(name = "user_id")
         var user: User,
 
         @Column(name = "started_at")
-        var startedAt: Long? = null
+        var startedAt: Long? = null,
+
+        @JoinColumn(name = "artwork_file_id")
+        @ManyToOne(targetEntity = File::class)
+        var artworkFile: File? = null
 ) : BelongsToUser {
     fun isStarted(): Boolean {
         return startedAt != null

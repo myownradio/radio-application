@@ -25,7 +25,11 @@ data class User(
 
         @Column(name = "role", nullable = false)
         @Enumerated(EnumType.STRING)
-        val role: Role = Role.USER
+        val role: Role = Role.USER,
+
+        @JoinColumn(name = "avatar_file_id")
+        @ManyToOne(targetEntity = File::class)
+        var avatarFile: File? = null
 ) {
     enum class Status { INACTIVE, ACTIVE, SUSPENDED, BANNED }
     enum class Role { USER, ADMIN }

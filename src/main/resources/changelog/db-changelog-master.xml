@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
-    <changeSet id="1" author="Roman">
+    <changeSet id="001" author="Roman">
         <createTable tableName="users">
             <column name="id" type="bigint unsigned" autoIncrement="true" incrementBy="1">
                 <constraints primaryKey="true" nullable="false"/>
@@ -28,7 +28,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2" author="Roman">
+    <changeSet id="002" author="Roman">
         <createTable tableName="channels">
             <column name="id" type="bigint unsigned" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -48,7 +48,40 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="3" author="Roman">
+    <changeSet id="003" author="Roman">
+        <!-- Create Blobs Table -->
+        <createTable tableName="blobs">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hash" type="varchar(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Create Files Table -->
+        <createTable tableName="files">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="blob_id" type="bigint unsigned">
+                <constraints nullable="false"
+                             foreignKeyName="file_blob_id_fk"
+                             referencedTableName="blobs"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <!-- Create Tracks Table -->
         <createTable tableName="tracks">
             <column name="id" type="bigint unsigned" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -66,6 +99,23 @@
                              referencedColumnNames="id"/>
             </column>
         </createTable>
-    </changeSet>
 
+        <!-- Modify Tables -->
+        <addColumn tableName="channels">
+            <column name="artwork_file_id" type="bigint unsigned">
+                <constraints nullable="true"
+                             foreignKeyName="channel_artwork_file_id_fk"
+                             referencedTableName="files"
+                             referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="users">
+            <column name="avatar_file_id" type="bigint unsigned">
+                <constraints nullable="true"
+                             foreignKeyName="user_avatar_file_id_fk"
+                             referencedTableName="files"
+                             referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
