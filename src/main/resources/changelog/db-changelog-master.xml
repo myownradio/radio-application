@@ -89,11 +89,23 @@
             <column name="id" type="bigint unsigned" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="position" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
             <column name="title" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="artist" type="varchar(255)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="audio_file_id" type="bigint unsigned">
+                <constraints nullable="false"
+                             foreignKeyName="track_audio_file_id_fk"
+                             referencedTableName="files"
+                             referencedColumnNames="id"/>
             </column>
             <column name="channel_id" type="bigint unsigned">
                 <constraints nullable="false"
@@ -111,12 +123,7 @@
                              referencedTableName="files"
                              referencedColumnNames="id"/>
             </column>
-            <column name="audio_file_id" type="bigint unsigned">
-                <constraints nullable="true"
-                             foreignKeyName="channel_audio_file_id_fk"
-                             referencedTableName="files"
-                             referencedColumnNames="id"/>
-            </column>
+
         </addColumn>
         <addColumn tableName="users">
             <column name="avatar_file_id" type="bigint unsigned">

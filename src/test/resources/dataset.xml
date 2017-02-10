@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataset>
-    <users id="1" email="user@mail.com" password="pwd" name="Bob Smith" status="ACTIVE" role="USER"/>
+    <blobs id="1" content_type="application/octet-stream" size="8" hash="0000" file_system="local"/>
+    <blobs id="2" content_type="image/jpeg" size="16" hash="0001" file_system="local"/>
+    <blobs id="3" content_type="audio/mpeg" size="23523543" hash="1111" file_system="local"/>
+    <blobs id="4" content_type="audio/mpeg" size="54356766" hash="1121" file_system="local"/>
+
+    <files id="1" name="some_file.bin" blob_id="1"/>
+    <files id="2" name="alias_file.bin" blob_id="1"/>
+    <files id="3" name="some_image.jpg" blob_id="2"/>
+    <files id="4" name="other_image.jpg" blob_id="2"/>
+    <files id="5" name="robert_miles_children.mp3" blob_id="3"/>
+    <files id="6" name="robert_miles_fable.mp3" blob_id="4"/>
+
+    <users id="1" email="user@mail.com" password="pwd" name="Bob Smith" status="ACTIVE" role="USER" avatar_file_id="4"/>
     <users id="2" email="user2@mail.com" password="pwd" name="Dylan Smith" status="ACTIVE" role="USER"/>
     <users id="3" email="admin@mail.com" password="pwd" name="Alan Way" status="ACTIVE" role="ADMIN"/>
     <users id="4" email="inactive@mail.com" password="pwd" name="Sam Fisher" status="INACTIVE" role="USER"/>
     <users id="5" email="bad@mail.com" password="bad" name="Cathy Parmelee" status="BANNED" role="USER"/>
     <users id="6" email="bye@mail.com" password="bye" name="Maria Steele" status="SUSPENDED" role="USER"/>
 
-    <channels id="1" name="Radio #1" user_id="1" started_at="1486625038"/>
+    <channels id="1" name="Radio #1" user_id="1" started_at="1486625038" artwork_file_id="3"/>
     <channels id="2" name="Radio #2" user_id="1"/>
     <channels id="3" name="Radio #3" user_id="2"/>
     <channels id="4" name="Banned User's Radio" user_id="4"/>
     <channels id="5" name="Deleted User's Radio" user_id="5"/>
+    <channels id="6" name="Radio With Audio" user_id="1"/>
 
-    <blobs id="1" content_type="application/octet-stream" size="8" hash="0000" file_system="local"/>
-    <blobs id="2" content_type="image/jpeg" size="16" hash="0001" file_system="local"/>
-
-    <files id="1" name="some_file.bin" blob_id="1"/>
-    <files id="2" name="alias_file.bin" blob_id="1"/>
-    <files id="3" name="some_image.jpg" blob_id="2"/>
-    <files id="4" name="other_image.jpg" blob_id="2"/>
+    <tracks id="1" position="1" title="Children" artist="Robert Miles" duration="300000" channel_id="6" audio_file_id="5"/>
+    <tracks id="2" position="2" title="Fable" artist="Robert Miles" duration="400000" channel_id="6" audio_file_id="6"/>
 </dataset>
