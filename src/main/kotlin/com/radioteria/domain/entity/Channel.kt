@@ -1,5 +1,6 @@
 package com.radioteria.domain.entity
 
+import com.radioteria.auth.BelongsToUser
 import javax.persistence.*
 
 @Entity
@@ -19,8 +20,12 @@ data class Channel(
 
         @Column(name = "started_at")
         var startedAt: Long? = null
-) {
+) : BelongsToUser {
     fun isStarted(): Boolean {
         return startedAt != null
+    }
+
+    override fun belongsTo(user: User): Boolean {
+        return user.id == this.user.id
     }
 }
