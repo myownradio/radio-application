@@ -48,4 +48,24 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="3" author="Roman">
+        <createTable tableName="tracks">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="artist" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="channel_id" type="bigint unsigned">
+                <constraints nullable="false"
+                             foreignKeyName="track_channel_id_fk"
+                             referencedTableName="channels"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
