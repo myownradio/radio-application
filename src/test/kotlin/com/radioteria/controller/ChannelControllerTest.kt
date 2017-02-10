@@ -8,17 +8,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 class ChannelControllerTest : AbstractControllerTest() {
-
     companion object {
         const val API_CHANNEL_ENDPOINT = "/api/channel"
         const val CHANNEL_GOOD_NAME = "Beautiful Channel"
         const val CHANNEL_SHORT_NAME = ""
+
+        const val ACTIVE_USER_EMAIL = "user@mail.com"
     }
 
     @Test
     fun testCreateWhenAuthorizedAsActiveUser() {
         val request = post(API_CHANNEL_ENDPOINT)
-                .with(user(userDetails))
+                .with(user(getUserDetails(ACTIVE_USER_EMAIL)))
                 .withBody(NewChannelRequest(name = CHANNEL_GOOD_NAME))
 
         mvc.perform(request)
@@ -27,9 +28,9 @@ class ChannelControllerTest : AbstractControllerTest() {
     }
 
     @Test
-    fun testCreateWithShortName() {
+    fun testCreateDenyWithShortName() {
         val request = post(API_CHANNEL_ENDPOINT)
-                .with(user(userDetails))
+                .with(user(getUserDetails(ACTIVE_USER_EMAIL)))
                 .withBody(NewChannelRequest(name = CHANNEL_SHORT_NAME))
 
         mvc.perform(request)

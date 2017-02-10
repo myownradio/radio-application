@@ -11,11 +11,14 @@ class LoginControllerTest : AbstractControllerTest() {
     companion object {
         const val API_LOGIN_ENDPOINT = "/api/auth/login"
 
-        const val WRONG_EMAIL = "wrong@email.com"
+        const val WRONG_EMAIL = "wrong@mail.com"
         const val WRONG_PASSWORD = "sOmEwRoNgPaSsWoRd"
 
-        const val CORRECT_EMAIL = "user@example.com"
+        const val CORRECT_EMAIL = "user@mail.com"
         const val CORRECT_PASSWORD = "pwd"
+
+        const val INACTIVE_EMAIL = "inactive@mail.com"
+        const val INACTIVE_PASSWORD = "pwd"
     }
 
     @Test
@@ -23,7 +26,8 @@ class LoginControllerTest : AbstractControllerTest() {
         val request = post(API_LOGIN_ENDPOINT)
                 .with(csrf())
 
-        mvc.perform(request).andExpect(status().isUnauthorized)
+        mvc.perform(request)
+                .andExpect(status().isUnauthorized)
     }
 
     @Test
@@ -46,6 +50,17 @@ class LoginControllerTest : AbstractControllerTest() {
 
         mvc.perform(request)
                 .andExpect(status().isOk)
+    }
+
+    @Test
+    fun loginWhenInactive() {
+        val request = post(API_LOGIN_ENDPOINT)
+                .with(csrf())
+                .param("email", INACTIVE_EMAIL)
+                .param("password", INACTIVE_PASSWORD)
+
+        mvc.perform(request)
+                .andExpect(status().isUnauthorized)
     }
 
     @Test
