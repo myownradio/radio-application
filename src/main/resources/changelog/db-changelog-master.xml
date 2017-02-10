@@ -63,6 +63,9 @@
             <column name="hash" type="varchar(255)">
                 <constraints unique="true" nullable="false"/>
             </column>
+            <column name="file_system" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <!-- Create Files Table -->
@@ -105,6 +108,12 @@
             <column name="artwork_file_id" type="bigint unsigned">
                 <constraints nullable="true"
                              foreignKeyName="channel_artwork_file_id_fk"
+                             referencedTableName="files"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="audio_file_id" type="bigint unsigned">
+                <constraints nullable="true"
+                             foreignKeyName="channel_audio_file_id_fk"
                              referencedTableName="files"
                              referencedColumnNames="id"/>
             </column>

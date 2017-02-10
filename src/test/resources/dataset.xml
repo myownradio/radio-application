@@ -13,8 +13,8 @@
     <channels id="4" name="Banned User's Radio" user_id="4"/>
     <channels id="5" name="Deleted User's Radio" user_id="5"/>
 
-    <blobs id="1" content_type="application/octet-stream" size="8" hash="0000"/>
-    <blobs id="2" content_type="image/jpeg" size="16" hash="0001"/>
+    <blobs id="1" content_type="application/octet-stream" size="8" hash="0000" file_system="local"/>
+    <blobs id="2" content_type="image/jpeg" size="16" hash="0001" file_system="local"/>
 
     <files id="1" name="some_file.bin" blob_id="1"/>
     <files id="2" name="alias_file.bin" blob_id="1"/>

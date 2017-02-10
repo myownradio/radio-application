@@ -17,5 +17,8 @@ data class Blob(
         var size: Long,
 
         @Column(name = "hash")
-        var hash: String
+        var hash: String,
+
+        @Column(name = "file_system")
+        var fileSystem: String
 )
