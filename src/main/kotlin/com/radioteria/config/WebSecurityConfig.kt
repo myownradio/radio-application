@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED
 import com.radioteria.domain.entity.User as UserEntity
 
 @Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired

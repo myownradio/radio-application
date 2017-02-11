@@ -71,7 +71,7 @@ class ChannelControllerTest : AbstractControllerTest() {
                 get("$API_CHANNEL_ENDPOINT/$FOREIGN_CHANNEL_ID")
                         .with(user(getUserDetails(ACTIVE_USER_EMAIL)))
         )
-                .andExpect(status().isUnauthorized)
+                .andExpect(status().isForbidden)
     }
 
     @Test
@@ -125,7 +125,7 @@ class ChannelControllerTest : AbstractControllerTest() {
                         .with(user(getUserDetails(ACTIVE_USER_EMAIL)))
                         .withBody(ChannelRequest(name = UPDATED_CHANNEL_NAME))
         )
-                .andExpect(status().isUnauthorized)
+                .andExpect(status().isForbidden)
     }
 
     @Test
@@ -145,6 +145,6 @@ class ChannelControllerTest : AbstractControllerTest() {
         val user = user(getUserDetails(ACTIVE_USER_EMAIL))
 
         mvc.perform(delete("$API_CHANNEL_ENDPOINT/$FOREIGN_CHANNEL_ID").with(user))
-                .andExpect(status().isUnauthorized)
+                .andExpect(status().isForbidden)
     }
 }
