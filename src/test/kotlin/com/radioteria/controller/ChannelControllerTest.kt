@@ -16,6 +16,7 @@ class ChannelControllerTest : AbstractControllerTest() {
         const val CHANNEL_SHORT_NAME = ""
 
         const val ACTIVE_USER_EMAIL = "user@mail.com"
+
         const val OWN_CHANNEL_ID = 1
         const val OWN_CHANNEL_NAME = "Radio #1"
 
@@ -33,6 +34,7 @@ class ChannelControllerTest : AbstractControllerTest() {
         )
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.name").value(CHANNEL_GOOD_NAME))
+                .andExpect(jsonPath("$.user.email").value(ACTIVE_USER_EMAIL))
     }
 
     @Test
