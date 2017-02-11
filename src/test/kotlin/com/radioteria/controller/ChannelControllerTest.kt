@@ -25,7 +25,7 @@ class ChannelControllerTest : AbstractControllerTest() {
     }
 
     @Test
-    fun createWhenAuthorizedAsActiveUser() {
+    fun createChannelWhenAuthorizedAsActiveUser() {
         mvc.perform(
                 post(API_CHANNEL_ENDPOINT)
                         .with(user(getUserDetails(ACTIVE_USER_EMAIL)))
@@ -36,7 +36,7 @@ class ChannelControllerTest : AbstractControllerTest() {
     }
 
     @Test
-    fun createDenyWithShortName() {
+    fun createDenyIfNameIsShort() {
         mvc.perform(
                 post(API_CHANNEL_ENDPOINT)
                         .with(user(getUserDetails(ACTIVE_USER_EMAIL)))

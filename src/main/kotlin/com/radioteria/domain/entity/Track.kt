@@ -1,5 +1,6 @@
 package com.radioteria.domain.entity
 
+import com.radioteria.auth.BelongsToUser
 import javax.persistence.*
 
 @Entity
@@ -29,4 +30,8 @@ data class Track(
         @JoinColumn(name = "channel_id")
         @ManyToOne(targetEntity = Channel::class)
         var channel: Channel
-)
+) : BelongsToUser {
+    override fun belongsTo(user: User): Boolean {
+        return user.id == this.channel.user.id
+    }
+}
