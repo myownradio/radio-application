@@ -3,30 +3,41 @@ package com.radioteria.web.controller
 import com.radioteria.auth.UserEntityDetails
 import com.radioteria.domain.entity.Channel
 import com.radioteria.domain.repository.ChannelRepository
+import com.radioteria.web.controller.ChannelController.Companion.CHANNEL_API_ENDPOINT
 import com.radioteria.web.request.ChannelRequest
 import org.springframework.hateoas.ExposesResourceFor
+import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
+import java.net.URI
+import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @ExposesResourceFor(Channel::class)
 @Secured("ROLE_USER")
-@RequestMapping("/api/channel")
+@RequestMapping(CHANNEL_API_ENDPOINT)
 @RestController
 class ChannelController(val channelRepository: ChannelRepository) {
+
+    companion object {
+        const val CHANNEL_API_ENDPOINT = "/api/channel"
+    }
 
     @RequestMapping(method = arrayOf(RequestMethod.POST))
     fun create(
             @Valid @RequestBody request: ChannelRequest,
-            @AuthenticationPrincipal principal: UserEntityDetails
-    ): Channel {
+            @AuthenticationPrincipal principal: UserEntityDetails,
+            response: HttpServletResponse
+    ) : ResponseEntity<Any> {
         val channel = Channel(user = principal.user)
         request.fillChannel(channel)
         channelRepository.save(channel)
 
-        return channel
+        val channelUri = URI.create("$CHANNEL_API_ENDPOINT/${channel.id}")
+
+        return ResponseEntity.created(channelUri).build()
     }
 
     @PreAuthorize("#channel.belongsTo(principal.user)")
@@ -45,12 +56,12 @@ class ChannelController(val channelRepository: ChannelRepository) {
     fun save(
             @PathVariable("id") channel: Channel,
             @Valid @RequestBody request: ChannelRequest
-    ): Channel {
+    ): ResponseEntity<Any> {
         request.fillChannel(channel)
 
         channelRepository.save(channel)
 
-        return channel
+        return ResponseEntity.ok().build()
     }
 
     @PreAuthorize("#channel.belongsTo(principal.user)")

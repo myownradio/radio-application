@@ -27,10 +27,18 @@ class ChannelControllerTest : AbstractControllerTest() {
 
     @Test
     fun createChannelWhenAuthorizedAsActiveUser() {
-        mvc.perform(
+        val result = mvc.perform(
                 post(API_CHANNEL_ENDPOINT)
                         .with(user(getUserDetails(ACTIVE_USER_EMAIL)))
                         .withBody(ChannelRequest(name = CHANNEL_GOOD_NAME))
+        )
+                .andExpect(status().isCreated)
+                .andReturn()
+
+        val newChannelUrl = result.response.redirectedUrl
+
+        mvc.perform(get(newChannelUrl)
+                .with(user(getUserDetails(ACTIVE_USER_EMAIL)))
         )
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.name").value(CHANNEL_GOOD_NAME))
@@ -110,7 +118,6 @@ class ChannelControllerTest : AbstractControllerTest() {
                         .withBody(ChannelRequest(name = UPDATED_CHANNEL_NAME))
         )
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.name").value(UPDATED_CHANNEL_NAME))
 
         mvc.perform(
                 get("$API_CHANNEL_ENDPOINT/$OWN_CHANNEL_ID")
