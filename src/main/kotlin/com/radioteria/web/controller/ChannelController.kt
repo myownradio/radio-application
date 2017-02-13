@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.*
-import java.net.URI
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
+
+import org.springframework.web.bind.annotation.*
 
 @ExposesResourceFor(Channel::class)
 @Secured("ROLE_USER")
@@ -32,12 +32,13 @@ class ChannelController(val channelRepository: ChannelRepository) {
             response: HttpServletResponse
     ) : ResponseEntity<Any> {
         val channel = Channel(user = principal.user)
+
         request.fillChannel(channel)
         channelRepository.save(channel)
 
-        val channelUri = URI.create("$CHANNEL_API_ENDPOINT/${channel.id}")
+        val createdChannelUri = java.net.URI("$CHANNEL_API_ENDPOINT/${channel.id}")
 
-        return ResponseEntity.created(channelUri).build()
+        return ResponseEntity.created(createdChannelUri).build()
     }
 
     @PreAuthorize("#channel.belongsTo(principal.user)")
