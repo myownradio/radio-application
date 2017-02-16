@@ -9,8 +9,7 @@ import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 import org.springframework.util.ResourceUtils
 
-// todo: replace this stub by real ffprobe test
-class AudioMetadataReaderTest {
+class FFmpegMetadataReaderTest {
 
     companion object {
         val EXPECTED_TITLE = "sample title"
@@ -23,7 +22,7 @@ class AudioMetadataReaderTest {
 
     @Test
     fun readSampleAudioMetadata() {
-        val audioFile = ResourceUtils.getFile("classpath:fixtures/ffprobe-test.mp3").absolutePath
+        val audioFile = ResourceUtils.getFile("classpath:fixtures/ffprobe-test.mp3")
         val metadata = metadataReader.read(audioFile)
 
         assertThat(metadata.title, equalTo(EXPECTED_TITLE))
