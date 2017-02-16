@@ -1,8 +1,22 @@
 IMAGE_ID := "myownradio/radioteria-base"
 CONTAINER_ID := "radioteria_base"
 
-build:
+docker-build:
 	docker build -t $(IMAGE_ID) .
 
-push:
+docker-push:
 	docker push $(IMAGE_ID)
+
+docker-test:
+	docker create --name $(CONTAINER_ID) --rm -w /app $(IMAGE_ID) mvn test
+	docker cp . $(CONTAINER_ID):/app
+	docker start --attach $(CONTAINER_ID)
+
+test:
+	mvn test
+
+clean:
+	mvn clean
+
+install:
+	mvn install
