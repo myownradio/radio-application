@@ -13,7 +13,7 @@ docker-test:
 	docker start --attach $(CONTAINER_ID)
 
 test:
-	mvn test
+	mvn --batch-mode test
 
 clean:
 	mvn clean
