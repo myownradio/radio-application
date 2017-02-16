@@ -1,21 +1,16 @@
 package com.radioteria.service
 
 import com.radioteria.service.shell.BinaryLocator
+import com.radioteria.service.shell.ShellBinaryLocator
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
 
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 
-@RunWith(SpringRunner::class)
-@SpringBootTest
+// todo: replace this stub by real ffprobe test
 class BinaryLocatorServiceTest {
 
-    @Autowired
-    lateinit var binaryLocator: BinaryLocator
+    val binaryLocator: BinaryLocator = ShellBinaryLocator()
 
     @Test
     fun locateEcho() {
