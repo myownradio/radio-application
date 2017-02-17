@@ -26,7 +26,7 @@ class ShellBinaryLocator : BinaryLocator {
         val exitStatus = process.waitFor()
 
         if (exitStatus != 0) {
-            throw BinaryLocatorException("Command '$LOOKUP_COMMAND' returned with exit status $exitStatus.")
+            throw BinaryLocatorException("Command '$LOOKUP_COMMAND' returned with non-zero exit status ($exitStatus).")
         }
 
         return process.inputStream.use { readStreamLines(it) }

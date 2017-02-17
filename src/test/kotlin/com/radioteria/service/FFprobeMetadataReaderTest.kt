@@ -9,7 +9,7 @@ import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 import org.springframework.util.ResourceUtils
 
-class FFmpegMetadataReaderTest {
+class FFprobeMetadataReaderTest {
 
     companion object {
         val EXPECTED_TITLE = "sample title"
@@ -18,7 +18,7 @@ class FFmpegMetadataReaderTest {
     }
 
     val binaryLocator: BinaryLocator = ShellBinaryLocator()
-    val metadataReader: MetadataReader = FFmpegMetadataReader(binaryLocator)
+    val metadataReader: MetadataReader = FFprobeMetadataReader(binaryLocator)
 
     @Test
     fun readSampleAudioMetadata() {

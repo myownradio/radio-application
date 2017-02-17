@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import java.io.File
 
 @Service
-class FFmpegMetadataReader(binaryLocator: BinaryLocator): MetadataReader {
+class FFprobeMetadataReader(binaryLocator: BinaryLocator): MetadataReader {
 
     private val ffprobeService: FFprobe = FFprobe(binaryLocator.locate("ffprobe"))
 
@@ -16,19 +16,19 @@ class FFmpegMetadataReader(binaryLocator: BinaryLocator): MetadataReader {
         val duration = result.format.duration
         val tags = result.format.tags
 
-        return Metadata(
-                tags["title"] ?: "",
-                tags["artist"] ?: "",
-                convertDurationFromDouble(duration)
-        )
+        return Metadata(tags["title"].orEmpty(), tags["artist"].orEmpty(), duration.normalizeAsLong())
     }
 
     override fun read(file: File): Metadata {
         return read(file.absolutePath)
     }
 
-    private fun convertDurationFromDouble(duration: Double): Long {
-        return (duration * 1000).toLong()
+    private fun Double.normalizeAsLong(): Long {
+        return (this * 1000).toLong()
+    }
+
+    private fun String?.orEmpty(): String {
+        return this ?: ""
     }
 
 }
