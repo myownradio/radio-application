@@ -1,4 +1,4 @@
-package com.radioteria.service.audio
+package com.radioteria.service.audio.metadata
 
 import java.io.File
 

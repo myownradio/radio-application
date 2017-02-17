@@ -1,4 +1,4 @@
-package com.radioteria.service.audio
+package com.radioteria.service.audio.metadata
 
 import com.radioteria.service.shell.BinaryLocator
 import net.bramp.ffmpeg.FFprobe

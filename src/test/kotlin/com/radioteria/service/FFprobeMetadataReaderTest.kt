@@ -1,6 +1,8 @@
 package com.radioteria.service
 
 import com.radioteria.service.audio.*
+import com.radioteria.service.audio.metadata.FFprobeMetadataReader
+import com.radioteria.service.audio.metadata.MetadataReader
 import com.radioteria.service.shell.BinaryLocator
 import com.radioteria.service.shell.ShellBinaryLocator
 import org.junit.Test
