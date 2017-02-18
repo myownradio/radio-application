@@ -13,6 +13,9 @@ class FFmpegAudioCodec(binaryLocator: BinaryLocator) : AudioCodec {
     private val ffmpegService: FFmpeg = FFmpeg(binaryLocator.locate("ffmpeg"))
 
     override fun decode(from: InputStream, to: OutputStream) {
+        from.copyTo(to)
+        return
+
         val job = ffmpegService.builder()
                 .setInput("-")
                 .addStdoutOutput()
