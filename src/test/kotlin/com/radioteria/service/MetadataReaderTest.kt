@@ -1,9 +1,6 @@
 package com.radioteria.service
 
-import com.radioteria.service.audio.metadata.FFprobeMetadataReader
 import com.radioteria.service.audio.metadata.MetadataReader
-import com.radioteria.service.shell.BinaryLocator
-import com.radioteria.service.shell.ShellBinaryLocator
 import org.junit.Test
 
 import org.hamcrest.CoreMatchers.*
@@ -14,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.util.ResourceUtils
 
-@RunWith(SpringRunner::class)
 @SpringBootTest
+@RunWith(SpringRunner::class)
 class MetadataReaderTest {
 
     companion object {
@@ -24,10 +21,7 @@ class MetadataReaderTest {
         val EXPECTED_DURATION = 27752L
     }
 
-//    val binaryLocator: BinaryLocator = ShellBinaryLocator()
-//    val metadataReader: MetadataReader = FFprobeMetadataReader(binaryLocator)
-    @Autowired
-    lateinit var metadataReader: MetadataReader
+    @Autowired lateinit var metadataReader: MetadataReader
 
     @Test
     fun readSampleAudioMetadata() {
