@@ -2,6 +2,7 @@ package com.radioteria.config.spring.logging
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.slf4j.event.Level
 import org.springframework.beans.factory.config.BeanPostProcessor
 import org.springframework.stereotype.Component
 import java.lang.reflect.Method
@@ -10,41 +11,69 @@ import java.lang.reflect.Proxy
 @Component
 class LoggingAnnotationBeanPostProcessor : BeanPostProcessor {
 
-    val beans: MutableMap<String, Class<Any>> = mutableMapOf()
+    val beans: MutableMap<String, Pair<Level, Class<Any>>> = mutableMapOf()
 
     override fun postProcessBeforeInitialization(bean: Any, beanName: String): Any {
         val originalClass = bean.javaClass
+        val annotation = originalClass.getAnnotation(Logging::class.java)
 
-        if (originalClass.isAnnotationPresent(Logging::class.java)) {
-            beans.put(beanName, originalClass)
+        if (annotation != null) {
+            beans.put(beanName, annotation.level to originalClass)
         }
 
         return bean
     }
 
     override fun postProcessAfterInitialization(bean: Any, beanName: String): Any {
-        val originalClass = beans[beanName]
+        val storedPair = beans[beanName]
 
-        if (originalClass != null) {
+        if (storedPair != null) {
+            val (level, originalClass) = storedPair
+
             val logger: Logger = LoggerFactory.getLogger(originalClass)
 
             return Proxy.newProxyInstance(originalClass.classLoader, originalClass.interfaces) { proxy, method, args ->
-                val result = method.invoke(bean, *args)
-                val message = renderMethodCallMessage(method, args, result)
-                logger.info(message)
-                result
+                val timeBefore = System.currentTimeMillis()
+                val returnValue = method.invoke(bean, *args)
+                val timeAfter = System.currentTimeMillis()
+                val message = renderMethodCallMessage(method, args, returnValue, timeAfter - timeBefore)
+
+                logMessage(message, logger, level)
+
+                returnValue
             }
         }
 
         return bean
     }
 
-    private fun renderMethodCallMessage(method: Method, args: Array<Any>, result: Any): String {
+    private fun renderMethodCallMessage(method: Method, args: Array<Any?>, returnValue: Any?, time: Long): String {
         val methodName = method.name
-        val argumentsString = args.map(Any::toString).joinToString(", ")
-        val resultString = result.toString()
+        val argumentsString = args.map { toWrappedString(it) }.joinToString(", ")
+        val returnValueAsString = toWrappedString(returnValue)
 
-        return "Method Call: $methodName($argumentsString) -> $resultString"
+        return "Called method '$methodName($argumentsString)': [time=$time, return=$returnValueAsString]"
+    }
+
+    private fun toWrappedString(obj: Any?): String {
+        if (obj is String) {
+            return "\"$obj\""
+        }
+        return obj.toString()
+    }
+
+    private fun logMessage(message: String, logger: Logger, level: Level) {
+        if (level == Level.TRACE) {
+            logger.trace(message)
+        } else if (level == Level.DEBUG) {
+            logger.debug(message)
+        } else if (level == Level.INFO) {
+            logger.info(message)
+        } else if (level == Level.WARN) {
+            logger.warn(message)
+        } else {
+            logger.error(message)
+        }
     }
 
 }
