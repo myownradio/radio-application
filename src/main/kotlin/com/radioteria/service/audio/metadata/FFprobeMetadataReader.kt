@@ -1,6 +1,6 @@
 package com.radioteria.service.audio.metadata
 
-import com.radioteria.config.spring.Logging
+import com.radioteria.config.spring.logging.Logging
 import com.radioteria.service.shell.BinaryLocator
 import net.bramp.ffmpeg.FFprobe
 import org.springframework.stereotype.Service

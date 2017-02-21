@@ -1,6 +1,6 @@
 package com.radioteria.service.shell
 
-import com.radioteria.config.spring.Logging
+import com.radioteria.config.spring.logging.Logging
 import org.springframework.stereotype.Service
 import java.io.InputStream
 import java.io.InputStreamReader

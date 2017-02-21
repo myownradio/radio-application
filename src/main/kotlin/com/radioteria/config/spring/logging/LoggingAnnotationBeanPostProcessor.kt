@@ -1,4 +1,4 @@
-package com.radioteria.config.spring
+package com.radioteria.config.spring.logging
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
