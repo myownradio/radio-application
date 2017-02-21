@@ -1,9 +1,11 @@
 package com.radioteria.service.shell
 
+import com.radioteria.config.spring.Logging
 import org.springframework.stereotype.Service
 import java.io.InputStream
 import java.io.InputStreamReader
 
+@Logging
 @Service
 class ShellBinaryLocator : BinaryLocator {
 

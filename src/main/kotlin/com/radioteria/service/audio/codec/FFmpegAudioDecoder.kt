@@ -13,22 +13,26 @@ class FFmpegAudioDecoder(binaryLocator: BinaryLocator) : AudioDecoder {
 
     companion object {
         const val AUDIO_FORMAT = "s16le"
-        const val AUDIO_CODEC = "pcm_$AUDIO_FORMAT"
+        const val AUDIO_CODEC = "pcm_s16le"
     }
 
     private val ffmpegService = FFmpeg(binaryLocator.locate("ffmpeg"))
 
     override fun decode(url: URL, skipMilliseconds: Long): InputStream {
-        val job = ffmpegService.builder()
+        val builder = ffmpegService.builder()
                 .setInput(URLDecoder.decode(url.toString(), "utf-8"))
-                .setStartOffset(skipMilliseconds, TimeUnit.MILLISECONDS)
                 .addStdoutOutput()
                     .setAudioChannels(2)
                     .setAudioSampleRate(44100)
                     .setAudioCodec(AUDIO_CODEC)
                     .setFormat(AUDIO_FORMAT)
                     .done()
-                .build()
+
+        if (skipMilliseconds > 0) {
+            builder.setStartOffset(skipMilliseconds, TimeUnit.MILLISECONDS)
+        }
+
+        val job = builder.build()
 
         val command = ffmpegService.path(job).toTypedArray()
 

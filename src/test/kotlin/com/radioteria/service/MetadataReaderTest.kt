@@ -8,8 +8,14 @@ import org.junit.Test
 
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
+import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.util.ResourceUtils
 
+@RunWith(SpringRunner::class)
+@SpringBootTest
 class MetadataReaderTest {
 
     companion object {
@@ -18,8 +24,10 @@ class MetadataReaderTest {
         val EXPECTED_DURATION = 27752L
     }
 
-    val binaryLocator: BinaryLocator = ShellBinaryLocator()
-    val metadataReader: MetadataReader = FFprobeMetadataReader(binaryLocator)
+//    val binaryLocator: BinaryLocator = ShellBinaryLocator()
+//    val metadataReader: MetadataReader = FFprobeMetadataReader(binaryLocator)
+    @Autowired
+    lateinit var metadataReader: MetadataReader
 
     @Test
     fun readSampleAudioMetadata() {

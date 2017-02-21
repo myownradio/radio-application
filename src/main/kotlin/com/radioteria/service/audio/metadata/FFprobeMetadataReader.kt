@@ -1,10 +1,12 @@
 package com.radioteria.service.audio.metadata
 
+import com.radioteria.config.spring.Logging
 import com.radioteria.service.shell.BinaryLocator
 import net.bramp.ffmpeg.FFprobe
 import org.springframework.stereotype.Service
 import java.io.File
 
+@Logging
 @Service
 class FFprobeMetadataReader(binaryLocator: BinaryLocator): MetadataReader {
 
