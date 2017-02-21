@@ -30,7 +30,7 @@ class LoggingAnnotationBeanPostProcessor : BeanPostProcessor {
 
             return Proxy.newProxyInstance(originalClass.classLoader, originalClass.interfaces) { proxy, method, args ->
                 val result = method.invoke(bean, *args)
-                val message = renderMethodCallMessage(originalClass, method, args, result)
+                val message = renderMethodCallMessage(method, args, result)
                 logger.info(message)
                 result
             }
@@ -39,13 +39,12 @@ class LoggingAnnotationBeanPostProcessor : BeanPostProcessor {
         return bean
     }
 
-    private fun renderMethodCallMessage(bean: Class<Any>, method: Method, args: Array<Any>, result: Any): String {
-        val className = bean.simpleName
+    private fun renderMethodCallMessage(method: Method, args: Array<Any>, result: Any): String {
         val methodName = method.name
         val argumentsString = args.map(Any::toString).joinToString(", ")
         val resultString = result.toString()
 
-        return "Call $className.$methodName($argumentsString) -> $resultString"
+        return "Method Call: $methodName($argumentsString) -> $resultString"
     }
 
 }
