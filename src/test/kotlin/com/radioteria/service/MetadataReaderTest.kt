@@ -1,6 +1,5 @@
 package com.radioteria.service
 
-import com.radioteria.service.audio.*
 import com.radioteria.service.audio.metadata.FFprobeMetadataReader
 import com.radioteria.service.audio.metadata.MetadataReader
 import com.radioteria.service.shell.BinaryLocator
@@ -11,7 +10,7 @@ import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.*
 import org.springframework.util.ResourceUtils
 
-class FFprobeMetadataReaderTest {
+class MetadataReaderTest {
 
     companion object {
         val EXPECTED_TITLE = "sample title"
