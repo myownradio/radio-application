@@ -71,7 +71,7 @@ class LoggingAnnotationBeanPostProcessor : BeanPostProcessor {
             logger.info(message)
         } else if (level == Level.WARN) {
             logger.warn(message)
-        } else {
+        } else if (level == Level.ERROR) {
             logger.error(message)
         }
     }
