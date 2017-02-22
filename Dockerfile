@@ -6,4 +6,4 @@ WORKDIR		/app
 
 RUN		mvn install
 
-CMD		["mvn", "spring-boot:run"]
+CMD		["make", "run"]
