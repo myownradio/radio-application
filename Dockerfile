@@ -1,5 +1,9 @@
-FROM maven:3.3-jdk-8
+FROM peacefulbit/radioteria-base
 
-RUN apt-get update && \
-    apt-get install -y ffmpeg make && \
-    apt-get clean
+COPY		. /app
+
+WORKDIR		/app
+
+RUN		mvn install
+
+CMD		["mvn", "spring-boot:run"]
