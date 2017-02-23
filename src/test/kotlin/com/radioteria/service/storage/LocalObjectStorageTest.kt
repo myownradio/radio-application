@@ -1,13 +1,11 @@
-package com.radioteria.service.fs
+package com.radioteria.service.storage
 
-import junit.framework.Assert.*
+import org.junit.Assert.*
 import org.junit.After
-import org.junit.Assert.assertArrayEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
-import org.springframework.util.ResourceUtils
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
@@ -56,11 +54,10 @@ class LocalObjectStorageTest {
 
         assertEquals(contentToSave.size.toLong(), obj.length)
         assertEquals(key, obj.key)
-        assertEquals("file:/$key", obj.url.toString())
         assertEquals(contentType, metadata.getProperty("Content-Type"))
 
         ByteArrayOutputStream().use { outputStream ->
-            obj.use { inputStream ->
+            obj.withContent { inputStream ->
                 inputStream.copyTo(outputStream)
             }
 

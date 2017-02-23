@@ -1,4 +1,4 @@
-package com.radioteria.service.fs
+package com.radioteria.service.storage
 
 import java.io.InputStream
 import java.net.URL
@@ -10,11 +10,10 @@ interface ObjectStorage {
             val key: String,
             val metadata: Properties,
             val length: Long,
-            val url: URL,
-            val streamProvider: () -> InputStream
+            val contentSupplier: () -> InputStream
     ) {
-        inline fun <R> use(block: (InputStream) -> R): R {
-            return streamProvider.invoke().use { block.invoke(it) }
+        inline fun <R> withContent(block: (InputStream) -> R): R {
+            return contentSupplier.invoke().use { block.invoke(it) }
         }
     }
 

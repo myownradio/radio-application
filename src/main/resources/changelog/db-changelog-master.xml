@@ -7,7 +7,7 @@
 
     <changeSet id="2017-02-10-12-00" author="Roman">
         <createTable tableName="users">
-            <column name="key" type="bigint unsigned" autoIncrement="true" incrementBy="1">
+            <column name="id" type="bigint unsigned" autoIncrement="true" incrementBy="1">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="email" type="varchar(64)">
@@ -30,7 +30,7 @@
 
     <changeSet id="2017-02-16-12-00" author="Roman">
         <createTable tableName="channels">
-            <column name="key" type="bigint unsigned" autoIncrement="true">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(64)">
@@ -40,7 +40,7 @@
                 <constraints nullable="false"
                              foreignKeyName="channel_user_id_fk"
                              referencedTableName="users"
-                             referencedColumnNames="key"/>
+                             referencedColumnNames="id"/>
             </column>
             <column name="started_at" type="bigint">
                 <constraints nullable="true"/>
@@ -51,7 +51,7 @@
     <changeSet id="2017-02-20-12-00" author="Roman">
         <!-- Create Blobs Table -->
         <createTable tableName="blobs">
-            <column name="key" type="bigint unsigned" autoIncrement="true">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="content_type" type="varchar(255)">
@@ -70,7 +70,7 @@
 
         <!-- Create Files Table -->
         <createTable tableName="files">
-            <column name="key" type="bigint unsigned" autoIncrement="true">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -80,13 +80,13 @@
                 <constraints nullable="false"
                              foreignKeyName="file_blob_id_fk"
                              referencedTableName="blobs"
-                             referencedColumnNames="key"/>
+                             referencedColumnNames="id"/>
             </column>
         </createTable>
 
         <!-- Create Tracks Table -->
         <createTable tableName="tracks">
-            <column name="key" type="bigint unsigned" autoIncrement="true">
+            <column name="id" type="bigint unsigned" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="position" type="bigint unsigned">
@@ -105,13 +105,13 @@
                 <constraints nullable="false"
                              foreignKeyName="track_audio_file_id_fk"
                              referencedTableName="files"
-                             referencedColumnNames="key"/>
+                             referencedColumnNames="id"/>
             </column>
             <column name="channel_id" type="bigint unsigned">
                 <constraints nullable="false"
                              foreignKeyName="track_channel_id_fk"
                              referencedTableName="channels"
-                             referencedColumnNames="key"/>
+                             referencedColumnNames="id"/>
             </column>
         </createTable>
 
@@ -121,7 +121,7 @@
                 <constraints nullable="true"
                              foreignKeyName="channel_artwork_file_id_fk"
                              referencedTableName="files"
-                             referencedColumnNames="key"/>
+                             referencedColumnNames="id"/>
             </column>
 
         </addColumn>
@@ -130,7 +130,7 @@
                 <constraints nullable="true"
                              foreignKeyName="user_avatar_file_id_fk"
                              referencedTableName="files"
-                             referencedColumnNames="key"/>
+                             referencedColumnNames="id"/>
             </column>
         </addColumn>
     </changeSet>

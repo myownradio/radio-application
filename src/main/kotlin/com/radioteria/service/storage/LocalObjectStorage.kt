@@ -1,14 +1,12 @@
-package com.radioteria.service.fs
+package com.radioteria.service.storage
 
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.InputStream
+import com.radioteria.config.spring.logging.Logging
+import java.io.*
 import java.net.URL
 import java.util.*
 
-
-class LocalObjectStorage(val root: File, val mapFileIdToURL: (String) -> URL) : ObjectStorage {
+@Logging
+class LocalObjectStorage(val root: File, val fileIdToURLMapper: (String) -> URL) : ObjectStorage {
 
     override fun has(key: String): Boolean {
         return getContentFile(key).exists() && getMetadataFile(key).exists()
@@ -23,7 +21,6 @@ class LocalObjectStorage(val root: File, val mapFileIdToURL: (String) -> URL) : 
                 key,
                 metadata,
                 contentSize,
-                getURL(key),
                 { FileInputStream(contentFile) }
         )
     }
@@ -42,7 +39,7 @@ class LocalObjectStorage(val root: File, val mapFileIdToURL: (String) -> URL) : 
     }
 
     override fun getURL(key: String): URL {
-        return mapFileIdToURL(key)
+        return fileIdToURLMapper(key)
     }
 
     private fun getContentFile(key: String): File {
