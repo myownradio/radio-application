@@ -4,13 +4,13 @@ import java.io.InputStream
 import java.net.URL
 import java.util.*
 
-interface FileSystem {
+interface ObjectStorage {
 
-    data class FileItem(
-            val filename: String,
+    class Object(
+            val key: String,
             val metadata: Properties,
             val length: Long,
-            val fileUrl: URL,
+            val url: URL,
             val streamProvider: () -> InputStream
     ) {
         inline fun <R> use(block: (InputStream) -> R): R {
@@ -18,12 +18,14 @@ interface FileSystem {
         }
     }
 
-    fun has(id: String): Boolean
+    fun has(key: String): Boolean
 
-    fun get(id: String): FileItem
+    fun get(key: String): Object
 
-    fun delete(id: String)
+    fun delete(key: String)
 
-    fun create(id: String, dataStream: InputStream, metadata: Properties)
+    fun create(key: String, inputStream: InputStream, metadata: Properties)
+
+    fun getURL(key: String): URL
 
 }
