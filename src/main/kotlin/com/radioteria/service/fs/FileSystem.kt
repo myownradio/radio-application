@@ -8,9 +8,14 @@ interface FileSystem {
     data class FileItem(
             val id: String,
             val contentType: String,
-            val length: String,
-            val fileUrl: URL
-    )
+            val length: Long,
+            val fileUrl: URL,
+            val streamProvider: () -> InputStream
+    ) {
+        inline fun <R> use(block: (InputStream) -> R): R {
+            return streamProvider.invoke().use { block.invoke(it) }
+        }
+    }
 
     fun has(id: String): Boolean
 
@@ -18,6 +23,6 @@ interface FileSystem {
 
     fun delete(id: String)
 
-    fun create(id: String, dataStream: InputStream)
+    fun create(id: String, dataStream: InputStream, contentType: String)
 
 }
