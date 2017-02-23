@@ -8,7 +8,7 @@ import java.net.URL
 import java.util.*
 
 
-class LocalFileSystem(val root: String, val mapIdToURL: (String) -> URL) : FileSystem {
+class LocalFileSystem(val root: File, val mapIdToURL: (String) -> URL) : FileSystem {
 
     override fun has(id: String): Boolean {
         return getContentFile(id).exists() && getMetadataFile(id).exists()
@@ -17,13 +17,11 @@ class LocalFileSystem(val root: String, val mapIdToURL: (String) -> URL) : FileS
     override fun get(id: String): FileSystem.FileItem {
         val metadata = readMetadata(id)
         val contentFile = getContentFile(id)
-
-        val contentType: String = metadata.getProperty("Content-Type") ?: "application/octet-stream"
         val contentSize: Long = contentFile.length()
 
         return FileSystem.FileItem(
                 id,
-                contentType,
+                metadata,
                 contentSize,
                 mapIdToURL(id),
                 { FileInputStream(contentFile) }
@@ -35,8 +33,7 @@ class LocalFileSystem(val root: String, val mapIdToURL: (String) -> URL) : FileS
         getContentFile(id).delete()
     }
 
-    override fun create(id: String, dataStream: InputStream, contentType: String) {
-        val metadata = mapOf("Content-Type" to contentType).toProperties()
+    override fun create(id: String, dataStream: InputStream, metadata: Properties) {
         val outputStream = FileOutputStream(getContentFile(id))
 
         outputStream.use { dataStream.copyTo(it) }

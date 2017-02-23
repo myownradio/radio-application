@@ -2,12 +2,13 @@ package com.radioteria.service.fs
 
 import java.io.InputStream
 import java.net.URL
+import java.util.*
 
 interface FileSystem {
 
     data class FileItem(
-            val id: String,
-            val contentType: String,
+            val filename: String,
+            val metadata: Properties,
             val length: Long,
             val fileUrl: URL,
             val streamProvider: () -> InputStream
@@ -19,10 +20,10 @@ interface FileSystem {
 
     fun has(id: String): Boolean
 
-    fun get(id: String): FileItem?
+    fun get(id: String): FileItem
 
     fun delete(id: String)
 
-    fun create(id: String, dataStream: InputStream, contentType: String)
+    fun create(id: String, dataStream: InputStream, metadata: Properties)
 
 }
