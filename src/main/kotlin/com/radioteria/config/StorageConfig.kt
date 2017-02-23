@@ -1,10 +1,10 @@
 package com.radioteria.config
 
+import com.radioteria.config.spring.logging.Logging
 import com.radioteria.service.storage.LocalObjectStorage
 import com.radioteria.service.storage.ObjectStorage
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
 import java.io.File
 import java.net.URL
 
@@ -17,18 +17,19 @@ class StorageConfig {
 
         createDirectoryIfNotExist(tmpdir)
 
-        return LocalObjectStorage(tmpdir, { id -> URL("file:$tmpdir/$id") })
+        return LocalObjectStorage(
+                tmpdir,
+                { id: String -> URL("file:$tmpdir/$id") }
+        )
     }
 
     fun getContentDirectory(): File {
-        val tmpdir = System.getenv("java.io.tmpdir")
-        return File(tmpdir, "radioteria/content")
+        val tmpdir = System.getProperty("java.io.tmpdir")
+        return File(tmpdir, "radioteria.service/content")
     }
 
     fun createDirectoryIfNotExist(file: File) {
-        if (!file.exists()) {
-            file.mkdirs()
-        }
+        if (!file.exists()) { file.mkdirs() }
     }
 
 }

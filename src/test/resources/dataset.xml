@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dataset>
-    <blobs id="1" content_type="application/octet-stream" size="8" hash="0000" file_system="local"/>
-    <blobs id="2" content_type="image/jpeg" size="16" hash="0001" file_system="local"/>
-    <blobs id="3" content_type="audio/mpeg" size="23523543" hash="1111" file_system="local"/>
-    <blobs id="4" content_type="audio/mpeg" size="54356766" hash="1121" file_system="local"/>
+    <blobs id="1" content_type="application/octet-stream" size="8" hash="0000" file_system="local" is_permanent="1"/>
+    <blobs id="2" content_type="image/jpeg" size="16" hash="0001" file_system="local" is_permanent="1"/>
+    <blobs id="3" content_type="audio/mpeg" size="23523543" hash="1111" file_system="local" is_permanent="1"/>
+    <blobs id="4" content_type="audio/mpeg" size="54356766" hash="1121" file_system="local" is_permanent="1"/>
 
     <files id="1" name="some_file.bin" blob_id="1"/>
     <files id="2" name="alias_file.bin" blob_id="1"/>

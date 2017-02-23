@@ -63,11 +63,7 @@ class LocalObjectStorage(val root: File, val fileIdToURLMapper: (String) -> URL)
     }
 
     private fun keyToFileName(key: String): String {
-        return key.toCharArray().map {
-            if (it == File.separatorChar) { return "." }
-            if (it == '.') { return ".." }
-            it.toString()
-        }.fold("", { a, b -> "$a$b" })
+        return key.replace(File.separatorChar, '.')
     }
 
 }
