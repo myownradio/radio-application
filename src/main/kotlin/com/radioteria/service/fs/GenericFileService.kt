@@ -42,7 +42,7 @@ class GenericFileService(
 
     @Transactional
     override fun get(file: File): ObjectStorage.Object {
-        val blob = blobRepository.findById(file.blob.id!!)!!
+        val blob = blobRepository.findOne(file.blob.id!!)!!
         return objectStorage.get(blob.hash)
     }
 

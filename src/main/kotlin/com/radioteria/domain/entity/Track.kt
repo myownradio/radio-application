@@ -34,4 +34,7 @@ data class Track(
     override fun belongsTo(user: User): Boolean {
         return user.id == this.channel.user.id
     }
+    fun belongsTo(channel: Channel): Boolean {
+        return channel.id == this.channel.id
+    }
 }
