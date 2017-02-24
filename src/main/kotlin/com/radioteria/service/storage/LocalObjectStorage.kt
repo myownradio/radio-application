@@ -3,15 +3,16 @@ package com.radioteria.service.storage
 import com.radioteria.config.spring.logging.Logging
 import com.radioteria.unless
 import com.radioteria.util.io.copyToAndClose
-import com.radioteria.util.io.copyTo
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 import java.io.*
 import java.util.*
 
 @Logging
+@ConditionalOnProperty(value = "radioteria.storage", havingValue = "local")
 @Service
 class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: File) : ObjectStorage {
 
