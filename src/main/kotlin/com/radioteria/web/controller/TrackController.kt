@@ -6,6 +6,7 @@ import org.springframework.hateoas.ExposesResourceFor
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 
 @Secured("ROLE_USER")
 @ExposesResourceFor(Track::class)
@@ -20,7 +21,7 @@ class TrackController {
 
     @PreAuthorize(CHANNEL_PRE_AUTH)
     @PostMapping
-    fun upload(@PathVariable("channelId") channel: Channel): Track {
+    fun upload(@PathVariable("channelId") channel: Channel, @RequestParam("file") file: MultipartFile): Track {
         throw IllegalStateException()
     }
 
