@@ -6,14 +6,9 @@ import java.util.*
 
 interface ObjectStorage {
 
-    class Object(
-            val key: String,
-            val metadata: Properties,
-            val length: Long,
-            val contentSupplier: () -> InputStream
-    ) {
+    class Object(val key: String, val length: Long, val metadata: Metadata, val objectContent: () -> InputStream) {
         inline fun <R> withContent(block: (InputStream) -> R): R {
-            return contentSupplier.invoke().use { block.invoke(it) }
+            return objectContent.invoke().use { block.invoke(it) }
         }
     }
 
@@ -23,6 +18,6 @@ interface ObjectStorage {
 
     fun delete(key: String)
 
-    fun create(key: String, inputStream: InputStream, metadata: Properties)
+    fun put(key: String, inputStream: InputStream, metadata: Metadata)
 
 }

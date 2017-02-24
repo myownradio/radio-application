@@ -40,9 +40,9 @@ class LocalObjectStorageTest {
     fun createReadAndDeleteObject(key: String) {
         val contentToSave = "Object content.".toByteArray()
         val contentType = "text/plain"
-        val expectedMetadata = mapOf("Content-Type" to contentType).toProperties()
+        val expectedMetadata = Metadata(contentType = contentType)
 
-        objectStorage.create(key, ByteArrayInputStream(contentToSave), expectedMetadata)
+        objectStorage.put(key, ByteArrayInputStream(contentToSave), expectedMetadata)
 
         assertTrue(objectStorage.has(key))
 
@@ -51,7 +51,7 @@ class LocalObjectStorageTest {
 
         assertEquals(contentToSave.size.toLong(), obj.length)
         assertEquals(key, obj.key)
-        assertEquals(contentType, metadata.getProperty("Content-Type"))
+        assertEquals(contentType, metadata.contentType)
 
         ByteArrayOutputStream().use { outputStream ->
             obj.withContent { inputStream ->

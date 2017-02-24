@@ -1,12 +1,13 @@
 package com.radioteria.web.controller
 
+import com.radioteria.service.storage.Metadata
 import com.radioteria.service.storage.ObjectStorage
+import com.radioteria.util.io.sha1
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import java.util.*
 
 //@Secured("ROLE_USER")
 @RequestMapping("/api/upload")
@@ -15,12 +16,13 @@ class UploadController(val objectStorage: ObjectStorage) {
 
     @PostMapping
     fun upload(@RequestPart(value = "file", required = true) file: MultipartFile): String {
-        val metadata = Properties()
-        metadata.setProperty("ContentType", file.contentType)
+        val metadata = Metadata(contentType = file.contentType)
 
-        file.inputStream.use { objectStorage.create(file.originalFilename, it, metadata) }
+        val sha1 = file.inputStream.use(::sha1)
 
-        return file.originalFilename
+        file.inputStream.use { objectStorage.put(file.originalFilename, it, metadata) }
+
+        return sha1
     }
 
 }

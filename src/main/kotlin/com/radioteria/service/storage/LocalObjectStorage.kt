@@ -1,5 +1,6 @@
 package com.radioteria.service.storage
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.radioteria.config.spring.logging.Logging
 import com.radioteria.unless
 import com.radioteria.util.io.copyToAndClose
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 import java.io.*
-import java.util.*
 
 @Logging
 @ConditionalOnProperty(value = "radioteria.storage", havingValue = "local")
@@ -29,23 +29,20 @@ class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: Fi
         val isMetadataFileExists = getMetadataFile(key).exists()
 
         if (isContentFileExists != isMetadataFileExists) {
-            logger.warn(
-                    "Content file and metadata file existence are different ({}, {}, {}).",
-                    key,
-                    isContentFileExists,
-                    isMetadataFileExists
-            )
+            logger.warn("Content file and metadata file existence are different ({}, {}, {}).",
+                    key, isContentFileExists, isMetadataFileExists)
         }
 
         return getContentFile(key).exists() && getMetadataFile(key).exists()
     }
 
     override fun get(key: String): ObjectStorage.Object {
-        val metadata = readMetadata(key)
         val contentFile = getContentFile(key)
-        val contentSize: Long = contentFile.length()
 
-        return ObjectStorage.Object(key, metadata, contentSize, { FileInputStream(contentFile) })
+        val objectMetadata = readMetadata(key)
+        val objectLength: Long = contentFile.length()
+
+        return ObjectStorage.Object(key,  objectLength, objectMetadata, { FileInputStream(contentFile) })
     }
 
     override fun delete(key: String) {
@@ -57,7 +54,7 @@ class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: Fi
         getContentFile(key).delete()
     }
 
-    override fun create(key: String, inputStream: InputStream, metadata: Properties) {
+    override fun put(key: String, inputStream: InputStream, metadata: Metadata) {
         if (has(key)) {
             logger.warn("Object already exists and will be overwritten ({}).", key)
         }
@@ -87,14 +84,15 @@ class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: Fi
         return File("$root${File.separator}$filename.metadata")
     }
 
-    private fun readMetadata(key: String): Properties {
-        val properties = Properties()
-        FileInputStream(getMetadataFile(key)).use { properties.load(it) }
-        return properties
+    private fun readMetadata(key: String): Metadata {
+        return FileInputStream(getMetadataFile(key)).use {
+            ObjectMapper().readValue(it, Metadata::class.java)
+        }
     }
 
-    private fun writeMetadata(key: String, metadata: Properties) {
-        FileOutputStream(getMetadataFile(key)).use { metadata.store(it, null) }
+    private fun writeMetadata(key: String, metadata: Metadata) {
+        val bytes = ObjectMapper().writeValueAsBytes(metadata)
+        FileOutputStream(getMetadataFile(key)).use { it.write(bytes) }
     }
 
     private fun keyToFileName(key: String): String {
