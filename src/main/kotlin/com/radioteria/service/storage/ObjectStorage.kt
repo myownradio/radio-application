@@ -25,6 +25,4 @@ interface ObjectStorage {
 
     fun create(key: String, inputStream: InputStream, metadata: Properties)
 
-    fun getURL(key: String): URL
-
 }

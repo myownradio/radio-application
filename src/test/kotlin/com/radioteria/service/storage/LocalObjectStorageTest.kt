@@ -22,9 +22,7 @@ class LocalObjectStorageTest {
     @Before
     fun setup() {
         folder.create()
-        objectStorage = LocalObjectStorage(folder.root, object : ObjectKeyToURLMapper {
-            override fun map(objectKey: String): URL = URL("file:/$objectKey")
-        })
+        objectStorage = LocalObjectStorage(folder.root)
     }
 
     @After

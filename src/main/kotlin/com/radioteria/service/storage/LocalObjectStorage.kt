@@ -4,15 +4,11 @@ import com.radioteria.config.spring.logging.Logging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.*
-import java.net.URL
 import java.util.*
 
 @Logging
 @Service
-class LocalObjectStorage(
-        @Value("\${radioteria.storage.local.dir}") val root: File,
-        val objectKeyToURLMapper: ObjectKeyToURLMapper
-) : ObjectStorage {
+class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: File) : ObjectStorage {
 
     init {
         root.exists() || root.mkdirs() || throw IOException("Directory '$root' could not be created.")
@@ -27,12 +23,7 @@ class LocalObjectStorage(
         val contentFile = getContentFile(key)
         val contentSize: Long = contentFile.length()
 
-        return ObjectStorage.Object(
-                key,
-                metadata,
-                contentSize,
-                { FileInputStream(contentFile) }
-        )
+        return ObjectStorage.Object(key, metadata, contentSize, { FileInputStream(contentFile) })
     }
 
     override fun delete(key: String) {
@@ -55,10 +46,6 @@ class LocalObjectStorage(
         if (!contentFile.parentFile.exists()) {
             contentFile.parentFile.mkdirs()
         }
-    }
-
-    override fun getURL(key: String): URL {
-        return objectKeyToURLMapper.map(key)
     }
 
     private fun getContentFile(key: String): File {
