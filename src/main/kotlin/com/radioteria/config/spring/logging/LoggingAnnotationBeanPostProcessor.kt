@@ -35,7 +35,7 @@ class LoggingAnnotationBeanPostProcessor : BeanPostProcessor {
                 val timeAfter = System.currentTimeMillis()
                 val message = renderMethodCallMessage(method, args, returnValue, timeAfter - timeBefore)
 
-                logger.debug(message)
+                logger.info(message)
 
                 returnValue
             }

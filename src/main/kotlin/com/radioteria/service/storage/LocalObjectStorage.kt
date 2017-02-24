@@ -1,12 +1,22 @@
 package com.radioteria.service.storage
 
 import com.radioteria.config.spring.logging.Logging
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 import java.io.*
 import java.net.URL
 import java.util.*
 
 @Logging
-class LocalObjectStorage(val root: File, val fileIdToURLMapper: (String) -> URL) : ObjectStorage {
+@Service
+class LocalObjectStorage(
+        @Value("\${radioteria.storage.local.dir}") val root: File,
+        val objectKeyToURLMapper: ObjectKeyToURLMapper
+) : ObjectStorage {
+
+    init {
+        root.exists() || root.mkdirs() || throw IOException("Directory '$root' could not be created.")
+    }
 
     override fun has(key: String): Boolean {
         return getContentFile(key).exists() && getMetadataFile(key).exists()
@@ -31,15 +41,24 @@ class LocalObjectStorage(val root: File, val fileIdToURLMapper: (String) -> URL)
     }
 
     override fun create(key: String, inputStream: InputStream, metadata: Properties) {
-        val outputStream = FileOutputStream(getContentFile(key))
+        val contentFile = getContentFile(key)
 
-        outputStream.use { inputStream.copyTo(it) }
+        createParentDirs(contentFile)
+
+        FileOutputStream(contentFile)
+                .use { inputStream.copyTo(it) }
 
         writeMetadata(key, metadata)
     }
 
+    private fun createParentDirs(contentFile: File) {
+        if (!contentFile.parentFile.exists()) {
+            contentFile.parentFile.mkdirs()
+        }
+    }
+
     override fun getURL(key: String): URL {
-        return fileIdToURLMapper(key)
+        return objectKeyToURLMapper.map(key)
     }
 
     private fun getContentFile(key: String): File {
