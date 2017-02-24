@@ -38,7 +38,7 @@ class LocalObjectStorageTest {
     }
 
     fun createReadAndDeleteObject(key: String) {
-        val contentToSave = "Object content.".toByteArray()
+        val contentToSave = "Object blob.".toByteArray()
         val contentType = "text/plain"
         val expectedMetadata = Metadata(contentType = contentType)
 

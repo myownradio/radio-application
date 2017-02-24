@@ -14,5 +14,5 @@ data class File(
 
         @ManyToOne(targetEntity = Blob::class)
         @JoinColumn(name = "blob_id")
-        var content: Blob
+        var blob: Blob
 )

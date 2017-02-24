@@ -5,3 +5,7 @@ inline fun unless(expression: Boolean, block: () -> Unit): Unit {
         block.invoke()
     }
 }
+
+inline fun <T> T?.orElse(block: () -> T): T {
+    return if (this == null) { block.invoke() } else this
+}
