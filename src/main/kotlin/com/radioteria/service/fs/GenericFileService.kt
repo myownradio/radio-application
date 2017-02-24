@@ -31,14 +31,9 @@ class GenericFileService(
             inputStreamSupplier.invoke().use { objectStorage.put(sha1, it, Metadata(contentType = contentType)) }
 
             val storedObject = objectStorage.get(sha1)
-            val blob = Blob(
-                    contentType = contentType,
-                    size = storedObject.length,
-                    hash = sha1,
-                    fileSystem = "unused",
-                    isPermanent = true
-            )
-            blob.apply { blobRepository.save(this) }
+
+            Blob(contentType = contentType, size = storedObject.length, hash = sha1)
+                .apply { blobRepository.save(this) }
         }
 
         return createAndSaveFile(blob, filename)
@@ -62,8 +57,14 @@ class GenericFileService(
         }
     }
 
+    @Transactional
+    override fun markPermanent(file: File) {
+        file.isPermanent = true
+        fileRepository.save(file)
+    }
+
     private fun createAndSaveFile(blob: Blob, filename: String): File {
-        return File(name = filename, blob = blob)
+        return File(name = filename, blob = blob, isPermanent = false)
                 .apply { fileRepository.save(this) }
     }
 

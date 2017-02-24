@@ -17,11 +17,5 @@ data class Blob(
         var size: Long,
 
         @Column(name = "hash")
-        var hash: String,
-
-        @Column(name = "file_system")
-        var fileSystem: String,
-
-        @Column(name = "is_permanent")
-        val isPermanent: Boolean
+        var hash: String
 )

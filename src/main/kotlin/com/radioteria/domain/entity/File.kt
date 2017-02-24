@@ -1,5 +1,6 @@
 package com.radioteria.domain.entity
 
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -14,5 +15,12 @@ data class File(
 
         @ManyToOne(targetEntity = Blob::class)
         @JoinColumn(name = "blob_id")
-        var blob: Blob
+        var blob: Blob,
+
+        @Temporal(TemporalType.TIMESTAMP)
+        @Column(name = "created_at", nullable = false)
+        var createdAt: Date = Date(),
+
+        @Column(name = "is_permanent")
+        var isPermanent: Boolean
 )

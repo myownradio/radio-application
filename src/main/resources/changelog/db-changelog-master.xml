@@ -136,8 +136,15 @@
     </changeSet>
 
     <changeSet id="2017-02-24-00-15" author="Roman">
-        <addColumn tableName="blobs">
+        <addColumn tableName="files">
             <column name="is_permanent" type="boolean"/>
         </addColumn>
+    </changeSet>
+
+    <changeSet id="2017-02-24-18-22" author="Roman">
+        <addColumn tableName="files">
+            <column name="created_at" type="timestamp"/>
+        </addColumn>
+        <dropColumn tableName="blobs" columnName="file_system"/>
     </changeSet>
 </databaseChangeLog>

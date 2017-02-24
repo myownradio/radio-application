@@ -12,4 +12,6 @@ interface FileService {
 
     fun delete(file: File)
 
+    fun markPermanent(file: File)
+
 }

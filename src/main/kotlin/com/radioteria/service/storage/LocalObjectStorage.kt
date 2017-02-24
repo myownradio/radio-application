@@ -81,7 +81,7 @@ class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: Fi
 
     private fun getMetadataFile(key: String): File {
         val filename = keyToFileName(key)
-        return File("$root${File.separator}$filename.metadata")
+        return File("$root${File.separator}$filename.json")
     }
 
     private fun readMetadata(key: String): Metadata {
