@@ -28,7 +28,8 @@ class GenericFileService(
         val sha1 = inputStreamSupplier.invoke().use(::sha1)
 
         val blob = blobRepository.findByHash(sha1).orElse {
-            inputStreamSupplier.invoke().use { objectStorage.put(sha1, it, Metadata(contentType = contentType)) }
+            inputStreamSupplier.invoke().use {
+                objectStorage.put(sha1, it, Metadata(contentType = contentType)) }
 
             val storedObject = objectStorage.get(sha1)
 
@@ -52,9 +53,13 @@ class GenericFileService(
         fileRepository.delete(file)
 
         if (fileRepository.findAllByBlob(fileBlob).isEmpty()) {
-            objectStorage.delete(fileBlob.hash)
-            blobRepository.delete(fileBlob)
+            deleteBlobAndDataObject(fileBlob)
         }
+    }
+
+    private fun deleteBlobAndDataObject(blob: Blob) {
+        objectStorage.delete(blob.hash)
+        blobRepository.delete(blob)
     }
 
     @Transactional
