@@ -25,6 +25,7 @@
         <kotlin.version>1.0.6</kotlin.version>
         <jwt.version>3.0.1</jwt.version>
         <raven.logback.version>7.8.2</raven.logback.version>
+        <aws.sdk.version>1.11.75</aws.sdk.version>
     </properties>
 
     <dependencies>
@@ -89,6 +90,13 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Object Storage -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>${aws.sdk.version}</version>
         </dependency>
 
         <!-- Tests -->
