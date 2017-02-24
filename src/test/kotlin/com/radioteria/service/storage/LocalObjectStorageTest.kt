@@ -9,13 +9,10 @@ import org.junit.rules.TemporaryFolder
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
-import java.net.URL
 
 class LocalObjectStorageTest {
 
-    @Rule
-    @JvmField
-    val folder: TemporaryFolder = TemporaryFolder()
+    @Rule @JvmField val folder: TemporaryFolder = TemporaryFolder()
 
     lateinit var objectStorage: ObjectStorage
 
@@ -70,12 +67,12 @@ class LocalObjectStorageTest {
     }
 
     @Test(expected = FileNotFoundException::class)
-    fun getWhenFileNotExists() {
+    fun getWhenFileDoesNotExist() {
         objectStorage.get("other.txt")
     }
 
     @Test
-    fun deleteWhenFileNotExists() {
+    fun deleteWhenFileDoesNotExist() {
         objectStorage.delete("other.txt")
     }
 

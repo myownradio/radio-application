@@ -1,6 +1,11 @@
 package com.radioteria.service.storage
 
 import com.radioteria.config.spring.logging.Logging
+import com.radioteria.unless
+import com.radioteria.util.io.copyToAndClose
+import com.radioteria.util.io.copyTo
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.*
@@ -10,11 +15,27 @@ import java.util.*
 @Service
 class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: File) : ObjectStorage {
 
+    companion object {
+        val logger: Logger = LoggerFactory.getLogger(LocalObjectStorage::class.java)
+    }
+
     init {
         root.exists() || root.mkdirs() || throw IOException("Directory '$root' could not be created.")
     }
 
     override fun has(key: String): Boolean {
+        val isContentFileExists = getContentFile(key).exists()
+        val isMetadataFileExists = getMetadataFile(key).exists()
+
+        if (isContentFileExists != isMetadataFileExists) {
+            logger.warn(
+                    "Content file and metadata file existence are different ({}, {}, {}).",
+                    key,
+                    isContentFileExists,
+                    isMetadataFileExists
+            )
+        }
+
         return getContentFile(key).exists() && getMetadataFile(key).exists()
     }
 
@@ -27,22 +48,29 @@ class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: Fi
     }
 
     override fun delete(key: String) {
+        unless (has(key)) {
+            logger.warn("Object does not exist ({}).", key)
+        }
+
         getMetadataFile(key).delete()
         getContentFile(key).delete()
     }
 
     override fun create(key: String, inputStream: InputStream, metadata: Properties) {
+        if (has(key)) {
+            logger.warn("Object already exists and will be overwritten ({}).", key)
+        }
+
         val contentFile = getContentFile(key)
 
-        createParentDirs(contentFile)
+        createParentDirsIfNecessary(contentFile)
 
-        FileOutputStream(contentFile)
-                .use { inputStream.copyTo(it) }
+        inputStream.copyToAndClose(FileOutputStream(contentFile))
 
         writeMetadata(key, metadata)
     }
 
-    private fun createParentDirs(contentFile: File) {
+    private fun createParentDirsIfNecessary(contentFile: File) {
         if (!contentFile.parentFile.exists()) {
             contentFile.parentFile.mkdirs()
         }
