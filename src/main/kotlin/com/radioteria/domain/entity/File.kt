@@ -22,5 +22,5 @@ data class File(
         var createdAt: Date = Date(),
 
         @Column(name = "is_permanent")
-        var isPermanent: Boolean
+        var isPermanent: Boolean = false
 )

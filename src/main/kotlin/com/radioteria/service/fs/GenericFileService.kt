@@ -64,7 +64,7 @@ class GenericFileService(
     }
 
     private fun createAndSaveFile(blob: Blob, filename: String): File {
-        return File(name = filename, blob = blob, isPermanent = false)
+        return File(name = filename, blob = blob)
                 .apply { fileRepository.save(this) }
     }
 
