@@ -1,4 +1,4 @@
-package com.radioteria.service
+package com.radioteria.service.core
 
 import com.radioteria.domain.entity.Channel
 import com.radioteria.domain.entity.Track
@@ -6,7 +6,7 @@ import com.radioteria.domain.repository.TrackRepository
 import com.radioteria.service.audio.metadata.MetadataReader
 import com.radioteria.service.fs.FileService
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
+import javax.transaction.Transactional
 
 @Service
 class GenericTrackService(
@@ -15,15 +15,16 @@ class GenericTrackService(
         val metadataReader: MetadataReader
 ) : TrackService {
 
-    override fun upload(channel: Channel, file: MultipartFile): Track {
-        val metadata = metadataReader.read(file.name)
-        val uploadedFile = fileService.put(file.originalFilename, { file.inputStream })
+    @Transactional
+    override fun upload(channel: Channel, uploadedFile: UploadedFile): Track {
+        val metadata = metadataReader.read(uploadedFile.inputStream)
+        val storedFile = fileService.put(uploadedFile.filename, { uploadedFile.inputStream })
         val track = Track(
                 title = metadata.title,
                 artist = metadata.artist,
                 duration = metadata.duration,
                 channel = channel,
-                audioFile = uploadedFile,
+                audioFile = storedFile,
                 position = 0
         )
         return track.apply { trackRepository.save(this) }

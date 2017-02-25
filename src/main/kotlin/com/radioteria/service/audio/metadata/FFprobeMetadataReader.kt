@@ -2,9 +2,11 @@ package com.radioteria.service.audio.metadata
 
 import com.radioteria.config.spring.logging.Logging
 import com.radioteria.service.shell.BinaryLocator
+import com.peacefulbit.util.useAsFile
 import net.bramp.ffmpeg.FFprobe
 import org.springframework.stereotype.Service
 import java.io.File
+import java.io.InputStream
 
 @Logging
 @Service
@@ -23,6 +25,10 @@ class FFprobeMetadataReader(binaryLocator: BinaryLocator): MetadataReader {
 
     override fun read(file: File): Metadata {
         return read(file.absolutePath)
+    }
+
+    override fun read(inputStream: InputStream): Metadata {
+        return inputStream.useAsFile { read(it) }
     }
 
     private fun Double.normalizeAsLong(): Long {

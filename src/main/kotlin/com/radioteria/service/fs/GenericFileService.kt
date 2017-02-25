@@ -4,13 +4,10 @@ import com.radioteria.domain.entity.Blob
 import com.radioteria.domain.entity.File
 import com.radioteria.domain.repository.BlobRepository
 import com.radioteria.domain.repository.FileRepository
-import com.radioteria.orElse
+import com.peacefulbit.util.orElse
 import com.radioteria.service.storage.Metadata
 import com.radioteria.service.storage.ObjectStorage
-import com.radioteria.util.io.sha1
-import net.sf.jmimemagic.Magic
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import com.peacefulbit.util.sha1
 import org.springframework.stereotype.Service
 import java.io.InputStream
 import javax.transaction.Transactional

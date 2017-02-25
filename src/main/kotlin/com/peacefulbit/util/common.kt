@@ -1,4 +1,4 @@
-package com.radioteria
+package com.peacefulbit.util
 
 inline fun unless(expression: Boolean, block: () -> Unit): Unit {
     if (!expression) {
@@ -7,5 +7,5 @@ inline fun unless(expression: Boolean, block: () -> Unit): Unit {
 }
 
 inline fun <T> T?.orElse(block: () -> T): T {
-    return if (this == null) { block.invoke() } else this
+    return this ?: block.invoke()
 }

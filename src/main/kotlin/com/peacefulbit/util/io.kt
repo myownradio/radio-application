@@ -1,13 +1,18 @@
-package com.radioteria.util.io
+package com.peacefulbit.util
 
+import java.io.File
+import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
-import java.security.MessageDigest
-import org.apache.commons.codec.binary.Hex
-
 
 fun InputStream.copyToAndClose(target: OutputStream): Long {
     return use { that -> target.use { that.copyTo(it) } }
+}
+
+inline fun <R> InputStream.useAsFile(block: (file: File) -> R): R {
+    val tempFile = File.createTempFile("inputStream_", null)
+    use { it.copyTo(FileOutputStream(tempFile)) }
+    return block.invoke(tempFile).apply { tempFile.delete() }
 }
 
 inline fun InputStream.forEachChunk(block: (byteArray: ByteArray) -> Unit): Long {
@@ -22,12 +27,4 @@ inline fun InputStream.forEachChunk(block: (byteArray: ByteArray) -> Unit): Long
     }
 
     return bytesRead
-}
-
-fun sha1(inputStream: InputStream): String {
-    val streamDigest = MessageDigest.getInstance("sha1")
-
-    inputStream.forEachChunk { streamDigest.update(it) }
-
-    return String(Hex.encodeHex(streamDigest.digest()))
 }
