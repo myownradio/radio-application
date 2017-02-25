@@ -5,6 +5,7 @@ import com.radioteria.domain.entity.Track
 import com.radioteria.service.core.TrackService
 import com.radioteria.service.core.UploadedFile
 import org.springframework.hateoas.ExposesResourceFor
+import org.springframework.http.HttpStatus
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -21,6 +22,7 @@ class TrackController(val trackService: TrackService) {
         const val TRACK_AND_CHANNEL_PRE_AUTH = "#channel.belongsTo(principal.user) and #track.belongsTo(#channel)"
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize(CHANNEL_PRE_AUTH)
     @PostMapping
     fun upload(@PathVariable("channelId") channel: Channel, @RequestParam("file") file: MultipartFile): Track {
