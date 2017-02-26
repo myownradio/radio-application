@@ -66,7 +66,7 @@ class TrackControllerUploadTest : AbstractControllerTest() {
     }
 
     @Test
-    fun uploadErrorInvalidAudioFile() {
+    fun uploadErrorWhenInvalidAudioFile() {
         val fileMock = mockInvalidAudioFile()
 
         mvc.perform(fileUpload("/api/channel/6/track")
