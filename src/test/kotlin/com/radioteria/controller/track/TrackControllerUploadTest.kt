@@ -77,7 +77,7 @@ class TrackControllerUploadTest : AbstractControllerTest() {
     }
 
     private fun mockAudioFileWithMetadata(): MockMultipartFile {
-        return mockResourceFile("classpath:fixtures/ffprobe-test.mp3")
+        return mockResourceFile("classpath:fixtures/with_metadata.mp3")
     }
 
     private fun mockInvalidAudioFile(): MockMultipartFile {
