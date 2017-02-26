@@ -4,7 +4,7 @@ import java.io.File
 import java.io.InputStream
 
 interface MetadataReader {
-    fun read(file: String): Metadata
-    fun read(file: File): Metadata
-    fun read(inputStream: InputStream): Metadata
+    fun read(file: String): Metadata?
+    fun read(file: File): Metadata?
+    fun read(inputStream: InputStream): Metadata?
 }

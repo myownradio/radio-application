@@ -11,7 +11,6 @@ import java.io.FileInputStream
 
 import com.radioteria.controller.ControllerTestConstants.THAT_USER
 import com.radioteria.controller.ControllerTestConstants.THIS_USER
-import org.junit.Ignore
 
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -66,8 +65,27 @@ class TrackControllerUploadTest : AbstractControllerTest() {
                 .andExpect(status().isNotFound)
     }
 
+    @Test
+    fun uploadErrorInvalidAudioFile() {
+        val fileMock = mockInvalidAudioFile()
+
+        mvc.perform(fileUpload("/api/channel/6/track")
+                .file(fileMock)
+                .with(user(getUserDetails(THIS_USER))))
+
+                .andExpect(status().isBadRequest)
+    }
+
     private fun mockAudioFileWithMetadata(): MockMultipartFile {
-        val fileToUpload = ResourceUtils.getFile("classpath:fixtures/ffprobe-test.mp3")
+        return mockResourceFile("classpath:fixtures/ffprobe-test.mp3")
+    }
+
+    private fun mockInvalidAudioFile(): MockMultipartFile {
+        return mockResourceFile("classpath:fixtures/invalid.mp3")
+    }
+
+    private fun mockResourceFile(path: String): MockMultipartFile {
+        val fileToUpload = ResourceUtils.getFile(path)
         val fileInputStream = FileInputStream(fileToUpload)
         val fileMock = MockMultipartFile("file", fileInputStream)
         return fileMock

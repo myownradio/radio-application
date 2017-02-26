@@ -28,7 +28,7 @@ class MetadataReaderTest {
     @Test
     fun readSampleAudioMetadataUsingFile() {
         val audioFile = ResourceUtils.getFile("classpath:fixtures/ffprobe-test.mp3")
-        val metadata = metadataReader.read(audioFile)
+        val metadata = metadataReader.read(audioFile)!!
 
         verifyMetadata(metadata)
     }
@@ -38,7 +38,7 @@ class MetadataReaderTest {
         val audioFile = ResourceUtils.getFile("classpath:fixtures/ffprobe-test.mp3")
         val inputStream = FileInputStream(audioFile)
 
-        val metadata = metadataReader.read(inputStream)
+        val metadata = metadataReader.read(inputStream)!!
 
         verifyMetadata(metadata)
     }

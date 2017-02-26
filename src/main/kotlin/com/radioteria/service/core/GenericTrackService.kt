@@ -17,7 +17,9 @@ class GenericTrackService(
 
     @Transactional
     override fun upload(channel: Channel, uploadedFile: UploadedFile): Track {
-        val metadata = metadataReader.read(uploadedFile.inputStream)
+        val metadata = metadataReader.read(uploadedFile.inputStream) ?:
+                throw InvalidAudioFileException()
+
         val storedFile = fileService.put(uploadedFile.filename, { uploadedFile.inputStream })
         val track = Track(
                 title = metadata.title,
@@ -27,6 +29,7 @@ class GenericTrackService(
                 audioFile = storedFile,
                 position = 0
         )
+
         return track.apply { trackRepository.save(this) }
     }
 
