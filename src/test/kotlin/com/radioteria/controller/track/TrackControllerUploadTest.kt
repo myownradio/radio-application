@@ -11,7 +11,6 @@ import java.io.FileInputStream
 
 import com.radioteria.controller.ControllerTestConstants.THAT_USER
 import com.radioteria.controller.ControllerTestConstants.THIS_USER
-import com.sun.javafx.scene.shape.PathUtils
 import org.apache.commons.io.FilenameUtils
 
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
