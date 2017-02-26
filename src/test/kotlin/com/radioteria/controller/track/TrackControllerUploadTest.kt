@@ -54,7 +54,6 @@ class TrackControllerUploadTest : AbstractControllerTest() {
                 .andExpect(status().isUnauthorized)
     }
 
-    @Ignore
     @Test
     fun uploadErrorWhenInvalidChannel() {
         val fileMock = mockAudioFileWithMetadata()
@@ -64,7 +63,7 @@ class TrackControllerUploadTest : AbstractControllerTest() {
                         .file(fileMock)
                         .with(user(getUserDetails(THIS_USER))))
 
-                .andExpect(status().isBadRequest)
+                .andExpect(status().isNotFound)
     }
 
     private fun mockAudioFileWithMetadata(): MockMultipartFile {

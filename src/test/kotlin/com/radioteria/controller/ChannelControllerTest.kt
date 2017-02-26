@@ -22,6 +22,8 @@ class ChannelControllerTest : AbstractControllerTest() {
 
         const val FOREIGN_CHANNEL_ID = 3
 
+        const val WRONG_CHANNEL_ID = 99
+
         const val UPDATED_CHANNEL_NAME = "New Radio #1"
     }
 
@@ -88,6 +90,14 @@ class ChannelControllerTest : AbstractControllerTest() {
     fun getChannelWhenUnauthorized() {
         mvc.perform(get("$API_CHANNEL_ENDPOINT/$OWN_CHANNEL_ID"))
                 .andExpect(status().isUnauthorized)
+    }
+
+    @Test
+    fun getChannelThatDoesNotExist() {
+        mvc.perform(get("$API_CHANNEL_ENDPOINT/$WRONG_CHANNEL_ID")
+                .with(user(getUserDetails(ACTIVE_USER_EMAIL))))
+
+                .andExpect(status().isNotFound)
     }
 
     @Test
