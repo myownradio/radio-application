@@ -6,10 +6,13 @@ import com.radioteria.domain.entity.File
 import com.radioteria.domain.repository.BlobRepository
 import com.radioteria.domain.repository.FileRepository
 import com.peacefulbit.util.orElse
+import com.peacefulbit.util.withStream
 import com.radioteria.service.storage.Metadata
 import com.radioteria.service.storage.ObjectStorage
 import org.apache.commons.codec.binary.Hex
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.ApplicationEvent
+import org.springframework.context.event.ApplicationEventMulticaster
 import org.springframework.stereotype.Service
 import java.io.InputStream
 import java.security.MessageDigest
@@ -20,6 +23,7 @@ class GenericFileService(
         val blobRepository: BlobRepository,
         val fileRepository: FileRepository,
         val objectStorage: ObjectStorage,
+        val eventMulticaster: ApplicationEventMulticaster,
         @Value("\${radioteria.fs.hashing.algorithm}")
         val hashingAlgorithm: String
 ) : FileService {
@@ -94,10 +98,6 @@ class GenericFileService(
         val hashAsHex = String(Hex.encodeHex(digest.digest()))
 
         return AnalyzeResult(hashAsHex, bytesRead)
-    }
-
-    inline private fun <R> (() -> InputStream).withStream(block: (InputStream) -> R): R {
-        return invoke().use(block)
     }
 
 }

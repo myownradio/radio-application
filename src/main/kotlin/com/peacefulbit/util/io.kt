@@ -28,3 +28,7 @@ inline fun InputStream.forEachChunk(block: (byteArray: ByteArray) -> Unit): Long
 
     return bytesRead
 }
+
+inline fun <R> (() -> InputStream).withStream(block: (InputStream) -> R): R {
+    return invoke().use(block)
+}

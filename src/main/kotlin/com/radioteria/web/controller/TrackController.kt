@@ -36,4 +36,10 @@ class TrackController(val trackService: TrackService) {
         return track
     }
 
+    @PreAuthorize(TRACK_AND_CHANNEL_PRE_AUTH)
+    @DeleteMapping("{trackId}")
+    fun delete(@PathVariable("trackId") track: Track, @PathVariable("channelId") channel: Channel) {
+        trackService.delete(track)
+    }
+
 }

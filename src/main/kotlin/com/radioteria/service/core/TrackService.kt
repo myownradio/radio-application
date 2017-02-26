@@ -5,4 +5,5 @@ import com.radioteria.domain.entity.Track
 
 interface TrackService {
     fun upload(channel: Channel, uploadedFile: UploadedFile): Track
+    fun delete(track: Track)
 }

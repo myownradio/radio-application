@@ -34,6 +34,12 @@ class GenericTrackService(
         return track.apply { trackRepository.save(this) }
     }
 
+    @Transactional
+    override fun delete(track: Track) {
+        fileService.delete(track.audioFile)
+        trackRepository.delete(track)
+    }
+
     private fun normalizeTrackTitle(title: String, uploadedFile: UploadedFile): String {
         return if (title.isEmpty()) mapFilenameToTitle(uploadedFile.filename) else title
     }
