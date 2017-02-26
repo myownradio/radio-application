@@ -21,10 +21,6 @@ class ParameterToEntityTranslator(
                 value = channelRepository.findOne(id?.toLong()) ?:
                         throw EntityNotFoundException("Channel with id $id does not exist.")
             }
-
-            override fun getAsText(): String {
-                return (value as Channel).id.toString()
-            }
         })
     }
 
