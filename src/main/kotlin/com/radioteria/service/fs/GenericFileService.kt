@@ -1,5 +1,6 @@
 package com.radioteria.service.fs
 
+import com.peacefulbit.util.forEachChunk
 import com.radioteria.domain.entity.Blob
 import com.radioteria.domain.entity.File
 import com.radioteria.domain.repository.BlobRepository
@@ -7,31 +8,35 @@ import com.radioteria.domain.repository.FileRepository
 import com.peacefulbit.util.orElse
 import com.radioteria.service.storage.Metadata
 import com.radioteria.service.storage.ObjectStorage
-import com.peacefulbit.util.sha1
+import org.apache.commons.codec.binary.Hex
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.InputStream
+import java.security.MessageDigest
 import javax.transaction.Transactional
 
 @Service
 class GenericFileService(
         val blobRepository: BlobRepository,
         val fileRepository: FileRepository,
-        val objectStorage: ObjectStorage
+        val objectStorage: ObjectStorage,
+        @Value("\${radioteria.fs.hashing.algorithm}")
+        val hashingAlgorithm: String
 ) : FileService {
 
     @Transactional
     override fun put(filename: String, inputStreamSupplier: () -> InputStream): File {
         val contentType = getContentType(filename)
-        val sha1 = inputStreamSupplier.invoke().use(::sha1)
+        val (hash, length) = inputStreamSupplier.withStream { analyzeInputStream(it) }
 
-        val blob = blobRepository.findByHash(sha1).orElse {
-            inputStreamSupplier.invoke().use {
-                objectStorage.put(sha1, it, Metadata(contentType = contentType)) }
+        val blob = blobRepository.findByHash(hash).orElse {
+            Blob(contentType = contentType, size = length, hash = hash).apply {
+                blobRepository.save(this)
 
-            val storedObject = objectStorage.get(sha1)
-
-            Blob(contentType = contentType, size = storedObject.length, hash = sha1)
-                .apply { blobRepository.save(this) }
+                inputStreamSupplier.withStream {
+                    objectStorage.put(mapBlobToObjectName(this), it, Metadata(contentType = contentType))
+                }
+            }
         }
 
         return createAndSaveFile(blob, filename)
@@ -72,6 +77,27 @@ class GenericFileService(
 
     private fun getContentType(filename: String): String {
         return "application/octet-stream"
+    }
+
+    private fun mapBlobToObjectName(blob: Blob): String {
+        return "file_${blob.id}"
+    }
+
+    data class AnalyzeResult(val hash: String, val length: Long)
+
+    private fun analyzeInputStream(inputStream: InputStream): AnalyzeResult {
+        val digest = MessageDigest.getInstance(hashingAlgorithm)
+        var bytesRead = 0L
+
+        inputStream.forEachChunk { digest.update(it); bytesRead += it.size }
+
+        val hashAsHex = String(Hex.encodeHex(digest.digest()))
+
+        return AnalyzeResult(hashAsHex, bytesRead)
+    }
+
+    inline private fun <R> (() -> InputStream).withStream(block: (InputStream) -> R): R {
+        return invoke().use(block)
     }
 
 }

@@ -1,6 +1,6 @@
 package com.radioteria.controller
 
-import com.radioteria.controller.ControllerTestConstants.THAT_USER
+import com.radioteria.controller.ControllerTestConstants.OTHER_USER
 import com.radioteria.controller.ControllerTestConstants.THIS_USER
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
@@ -18,7 +18,7 @@ class TrackControllerTest : AbstractControllerTest() {
 
     @Test
     fun getWhenAuthenticatedAsOtherUser() {
-        mvc.perform(get("/api/channel/6/track/1").with(user(getUserDetails(THAT_USER))))
+        mvc.perform(get("/api/channel/6/track/1").with(user(getUserDetails(OTHER_USER))))
                 .andExpect(status().isForbidden)
     }
 

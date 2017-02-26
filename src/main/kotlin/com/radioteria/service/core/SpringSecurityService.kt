@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service
 @Service
 class SpringSecurityService : SecurityService {
 
-    override fun getLoggedInUser(): User? {
-        return (SecurityContextHolder.getContext()
-                ?.authentication
-                ?.principal as? UserEntityDetails)
-                ?.user
+    override fun getAuthenticatedUser(): User? {
+        val auth = SecurityContextHolder.getContext().authentication ?: return null
+        return (auth.principal as UserEntityDetails).user
     }
 
     override fun isAuthenticated(): Boolean {
-        return getLoggedInUser() != null
+        return getAuthenticatedUser() != null
     }
 
 }

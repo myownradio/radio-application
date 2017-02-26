@@ -10,14 +10,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.WebDataBinder
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 import org.springframework.web.bind.annotation.*
-import java.beans.PropertyEditorSupport
-import javax.persistence.EntityNotFoundException
-import javax.validation.constraints.NotNull
 
 @ExposesResourceFor(Channel::class)
 @Secured("ROLE_USER")
