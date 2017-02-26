@@ -11,6 +11,8 @@ import java.io.FileInputStream
 
 import com.radioteria.controller.ControllerTestConstants.THAT_USER
 import com.radioteria.controller.ControllerTestConstants.THIS_USER
+import com.sun.javafx.scene.shape.PathUtils
+import org.apache.commons.io.FilenameUtils
 
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -31,6 +33,20 @@ class TrackControllerUploadTest : AbstractControllerTest() {
                 .andExpect(jsonPath("$.title").value("sample title"))
                 .andExpect(jsonPath("$.artist").value("sample artist"))
 
+    }
+
+    @Test
+    fun uploadTrackWithoutMetadata() {
+        val fileMock = mockAudioFileWithoutMetadata()
+
+        mvc.perform(
+                fileUpload("/api/channel/6/track")
+                        .file(fileMock)
+                        .with(user(getUserDetails(THIS_USER))))
+
+                .andExpect(status().isCreated)
+                .andExpect(jsonPath("$.title").value("without_metadata"))
+                .andExpect(jsonPath("$.artist").value(""))
     }
 
     @Test
@@ -80,6 +96,10 @@ class TrackControllerUploadTest : AbstractControllerTest() {
         return mockResourceFile("classpath:fixtures/with_metadata.mp3")
     }
 
+    private fun mockAudioFileWithoutMetadata(): MockMultipartFile {
+        return mockResourceFile("classpath:fixtures/without_metadata.mp3")
+    }
+
     private fun mockInvalidAudioFile(): MockMultipartFile {
         return mockResourceFile("classpath:fixtures/invalid.mp3")
     }
@@ -87,7 +107,8 @@ class TrackControllerUploadTest : AbstractControllerTest() {
     private fun mockResourceFile(path: String): MockMultipartFile {
         val fileToUpload = ResourceUtils.getFile(path)
         val fileInputStream = FileInputStream(fileToUpload)
-        val fileMock = MockMultipartFile("file", fileInputStream)
+        val originalFilename = FilenameUtils.getName(path)
+        val fileMock = MockMultipartFile("file", originalFilename, "audio/mpeg", fileInputStream)
         return fileMock
     }
 

@@ -5,6 +5,7 @@ import com.radioteria.domain.entity.Track
 import com.radioteria.domain.repository.TrackRepository
 import com.radioteria.service.audio.metadata.MetadataReader
 import com.radioteria.service.fs.FileService
+import org.apache.commons.io.FilenameUtils
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
@@ -22,7 +23,7 @@ class GenericTrackService(
 
         val storedFile = fileService.put(uploadedFile.filename, { uploadedFile.inputStream })
         val track = Track(
-                title = metadata.title,
+                title = normalizeTrackTitle(metadata.title, uploadedFile),
                 artist = metadata.artist,
                 duration = metadata.duration,
                 channel = channel,
@@ -31,6 +32,14 @@ class GenericTrackService(
         )
 
         return track.apply { trackRepository.save(this) }
+    }
+
+    private fun normalizeTrackTitle(title: String, uploadedFile: UploadedFile): String {
+        return if (title.isEmpty()) mapFilenameToTitle(uploadedFile.filename) else title
+    }
+
+    private fun mapFilenameToTitle(filename: String): String {
+        return FilenameUtils.getBaseName(filename)
     }
 
 }
