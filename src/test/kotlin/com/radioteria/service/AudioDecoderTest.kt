@@ -27,7 +27,7 @@ class AudioDecoderTest {
 
     @Test
     fun fileProtocol() {
-        val sourceCompressedAudioFile = ResourceUtils.getURL("classpath:fixtures/ffprobe-test.mp3")
+        val sourceCompressedAudioFile = ResourceUtils.getURL("classpath:fixtures/with_metadata.mp3")
 
         decodeAndVerify(sourceCompressedAudioFile)
     }
