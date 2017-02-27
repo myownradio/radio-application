@@ -7,4 +7,5 @@ interface TrackRepository : Repository<Track, Long> {
     fun findOne(id: Long?): Track?
     fun save(track: Track)
     fun delete(track: Track)
+    fun findAllByChannelIdOrderByPositionAsc(id: Long?): List<Track>
 }

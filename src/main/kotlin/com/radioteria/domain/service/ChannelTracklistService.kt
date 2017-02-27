@@ -1,4 +1,4 @@
-package com.radioteria.service.core
+package com.radioteria.domain.service
 
 import com.radioteria.domain.entity.Track
 

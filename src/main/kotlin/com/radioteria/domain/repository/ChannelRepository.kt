@@ -12,6 +12,6 @@ interface ChannelRepository : Repository<Channel, Long> {
     fun delete(channel: Channel)
 
     @Modifying
-    @Query("UPDATE Channel c SET c.startedAt = c.startedAt + ?2 WHERE c.id = ?1 AND c.startedAt IS NOT NULL")
+    @Query("UPDATE Channel c SET c.startedAt = c.startedAt + ?2 WHERE c.id = ?1")
     fun increaseStartedAt(channelId: Long, amount: Long)
 }
