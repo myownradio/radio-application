@@ -4,7 +4,6 @@ import com.radioteria.domain.entity.Channel
 import com.radioteria.domain.entity.Track
 import com.radioteria.service.core.TrackService
 import com.radioteria.service.core.UploadedFile
-import org.springframework.hateoas.ExposesResourceFor
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 
 @Secured("ROLE_USER")
-@ExposesResourceFor(Track::class)
 @RequestMapping("/api/channel/{channelId}/track")
 @RestController
 class TrackController(val trackService: TrackService) {

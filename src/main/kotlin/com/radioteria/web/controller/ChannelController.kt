@@ -5,7 +5,6 @@ import com.radioteria.domain.entity.Channel
 import com.radioteria.domain.repository.ChannelRepository
 import com.radioteria.web.controller.ChannelController.Companion.CHANNEL_API_ENDPOINT
 import com.radioteria.web.request.ChannelRequest
-import org.springframework.hateoas.ExposesResourceFor
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
@@ -15,7 +14,6 @@ import javax.validation.Valid
 
 import org.springframework.web.bind.annotation.*
 
-@ExposesResourceFor(Channel::class)
 @Secured("ROLE_USER")
 @RequestMapping(CHANNEL_API_ENDPOINT)
 @RestController
