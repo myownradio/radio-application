@@ -11,8 +11,8 @@ data class Track(
         @Column(name = "id")
         var id: Long? = null,
 
-        @Column(name = "position")
-        var position: Long,
+        @Column(name = "offset")
+        var offset: Long = 0,
 
         @Column(name = "title")
         var title: String = "",
@@ -31,10 +31,19 @@ data class Track(
         @ManyToOne(targetEntity = Channel::class)
         var channel: Channel
 ) : BelongsToUser {
+
+    val ending: Long get() = offset + duration
+
     override fun belongsTo(user: User): Boolean {
         return user.id == this.channel.user.id
     }
+
     fun belongsTo(channel: Channel): Boolean {
         return channel.id == this.channel.id
     }
+
+    fun isPlayingAt(lapTime: Long): Boolean {
+        return offset <= lapTime && ending > lapTime
+    }
+
 }

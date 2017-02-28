@@ -26,6 +26,6 @@
     <channels id="5" name="Deleted User's Radio" user_id="5"/>
     <channels id="6" name="Radio With Audio" user_id="1"/>
 
-    <tracks id="1" position="1" title="Children" artist="Robert Miles" duration="300000" channel_id="6" audio_file_id="5"/>
-    <tracks id="2" position="2" title="Fable" artist="Robert Miles" duration="400000" channel_id="6" audio_file_id="6"/>
+    <tracks id="1" offset="0" title="Children" artist="Robert Miles" duration="300000" channel_id="6" audio_file_id="5"/>
+    <tracks id="2" offset="300000" title="Fable" artist="Robert Miles" duration="400000" channel_id="6" audio_file_id="6"/>
 </dataset>

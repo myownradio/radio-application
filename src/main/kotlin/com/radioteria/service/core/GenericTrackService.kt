@@ -3,6 +3,7 @@ package com.radioteria.service.core
 import com.radioteria.domain.entity.Channel
 import com.radioteria.domain.entity.Track
 import com.radioteria.domain.repository.TrackRepository
+import com.radioteria.domain.service.ChannelTracklistService
 import com.radioteria.service.audio.metadata.MetadataReader
 import com.radioteria.service.fs.FileService
 import org.apache.commons.io.FilenameUtils
@@ -12,6 +13,7 @@ import javax.transaction.Transactional
 @Service
 class GenericTrackService(
         val trackRepository: TrackRepository,
+        val channelTracklistService: ChannelTracklistService,
         val fileService: FileService,
         val metadataReader: MetadataReader
 ) : TrackService {
@@ -27,11 +29,10 @@ class GenericTrackService(
                 artist = metadata.artist,
                 duration = metadata.duration,
                 channel = channel,
-                audioFile = storedFile,
-                position = 0
+                audioFile = storedFile
         )
 
-        return track.apply { trackRepository.save(this) }
+        return track.apply { channelTracklistService.add(this) }
     }
 
     @Transactional
