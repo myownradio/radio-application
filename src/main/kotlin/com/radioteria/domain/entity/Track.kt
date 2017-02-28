@@ -11,7 +11,7 @@ data class Track(
         @Column(name = "id")
         var id: Long? = null,
 
-        @Column(name = "offset")
+        @Column(name = "time_offset")
         var offset: Long = 0,
 
         @Column(name = "title")

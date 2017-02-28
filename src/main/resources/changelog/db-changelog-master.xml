@@ -149,7 +149,7 @@
     </changeSet>
 
     <changeSet id="2017-02-28-20-16" author="Roman">
-        <renameColumn tableName="tracks" oldColumnName="position" newColumnName="offset"/>
+        <renameColumn tableName="tracks" oldColumnName="position" newColumnName="time_offset"/>
     </changeSet>
 
 </databaseChangeLog>
