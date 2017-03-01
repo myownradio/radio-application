@@ -42,8 +42,8 @@ data class Track(
         return channel.id == this.channel.id
     }
 
-    fun isPlayingAt(lapTime: Long): Boolean {
-        return offset <= lapTime && ending > lapTime
+    fun playingAt(lapTime: Long): Boolean {
+        return lapTime in offset until ending
     }
 
 }
