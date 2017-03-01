@@ -7,19 +7,19 @@ import org.springframework.stereotype.Service
 @Service
 class ChannelPlaybackServiceImpl : ChannelPlaybackService {
 
-    override fun start(channel: Channel) {
+    override fun startChannel(channel: Channel) {
 
     }
 
-    override fun stop(channel: Channel) {
+    override fun stopChannel(channel: Channel) {
 
     }
 
-    override fun seek(channel: Channel, amount: Long) {
+    override fun seekChannel(channel: Channel, amount: Long) {
 
     }
 
-    override fun startFromOffset(channel: Channel, offset: Long) {
+    override fun startChannelFromTimePosition(channel: Channel, timePosition: Long) {
         
     }
 

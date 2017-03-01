@@ -64,13 +64,13 @@ class ChannelTracklistServiceImpl(
         val lastPlayingTrack = trackRepository.findOne(nowPlaying.track.id)
 
         if (lastPlayingTrack == null) {
-            channelPlaybackService.startFromOffset(channel, nowPlaying.track.offset)
+            channelPlaybackService.startChannelFromTimePosition(channel, nowPlaying.track.offset)
             return
         }
 
         val rewindAmount = lastPlayingTrack.offset - nowPlaying.track.offset
 
-        channelPlaybackService.seek(channel, rewindAmount)
+        channelPlaybackService.seekChannel(channel, rewindAmount)
     }
 
 }
