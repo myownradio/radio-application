@@ -12,7 +12,7 @@ interface TrackRepository : Repository<Track, Long> {
     fun save(track: Track)
     fun delete(track: Track)
 
-    @Query("SELECT SUM(t.duration) FROM Track t WHERE t.channel.id = ?1")
+    @Query("SELECT COALESCE(SUM(t.duration), 0) FROM Track t WHERE t.channel.id = ?1")
     fun getTracklistDurationByChannelId(id: Long?): Long
 
     @Query("FROM Track t WHERE t.offset >= ?2 AND t.offset + t.duration > ?2 AND t.channel.id = ?1 ORDER BY t.offset DESC")

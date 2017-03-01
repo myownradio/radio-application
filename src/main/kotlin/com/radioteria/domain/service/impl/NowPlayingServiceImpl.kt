@@ -27,6 +27,9 @@ class NowPlayingServiceImpl(val timeService: TimeService, val trackRepository: T
 
     override fun getChannelLapTime(channel: Channel): Long {
         val tracklistDuration = trackRepository.getTracklistDurationByChannelId(channel.id)
+        if (tracklistDuration == 0L) {
+            throw IllegalStateException("Channel has no tracks.")
+        }
         return getChannelUptime(channel) % tracklistDuration
     }
 

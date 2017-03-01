@@ -19,12 +19,14 @@
     <users id="5" email="bad@mail.com" password="bad" name="Cathy Parmelee" status="BANNED" role="USER"/>
     <users id="6" email="bye@mail.com" password="bye" name="Maria Steele" status="SUSPENDED" role="USER"/>
 
-    <channels id="1" name="Radio #1" user_id="1" started_at="1486625038" artwork_file_id="3"/>
+    <channels id="1" name="Radio #1" user_id="1" started_at="1486625038000" artwork_file_id="3"/>
     <channels id="2" name="Radio #2" user_id="1"/>
     <channels id="3" name="Radio #3" user_id="2"/>
     <channels id="4" name="Banned User's Radio" user_id="4"/>
     <channels id="5" name="Deleted User's Radio" user_id="5"/>
-    <channels id="6" name="Radio With Audio" user_id="1"/>
+    <channels id="6" name="Radio With Audio" started_at="1486625038000" user_id="1"/>
+    <channels id="7" name="Stopped Radio" user_id="1"/>
+    <channels id="8" name="Started without tracks" started_at="1486625038000" user_id="1"/>
 
     <tracks id="1" time_offset="0" title="Children" artist="Robert Miles" duration="300000" channel_id="6" audio_file_id="5"/>
     <tracks id="2" time_offset="300000" title="Fable" artist="Robert Miles" duration="400000" channel_id="6" audio_file_id="6"/>
