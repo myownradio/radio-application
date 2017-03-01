@@ -3,6 +3,8 @@ package com.radioteria.service
 import com.radioteria.annotation.DatabaseTest
 import com.radioteria.domain.repository.ChannelRepository
 import com.radioteria.domain.service.NowPlayingService
+import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,23 +27,23 @@ class NowPlayingServiceTest {
     lateinit var channelRepository: ChannelRepository
 
     @Test
-    fun whenChannelHasTracksAndStarted() {
+    fun whenChannelHaveTracksAndStarted() {
         val channel = channelRepository.findOne(startedChannelId)!!
         val nowPlaying = nowPlayingService.getNowPlaying(channel)
 
-        System.err.println(nowPlaying)
+        assertThat(nowPlaying, instanceOf(NowPlayingService.NowPlaying::class.java))
     }
 
     @Test(expected = IllegalStateException::class)
     fun whenChannelIsStopped() {
         val channel = channelRepository.findOne(stoppedChannelId)!!
-        val nowPlaying = nowPlayingService.getNowPlaying(channel)
+        nowPlayingService.getNowPlaying(channel)
     }
 
     @Test(expected = IllegalStateException::class)
     fun whenChannelHaveNoTracks() {
         val channel = channelRepository.findOne(withoutTracksChannelId)!!
-        val nowPlaying = nowPlayingService.getNowPlaying(channel)
+        nowPlayingService.getNowPlaying(channel)
     }
 
 }
