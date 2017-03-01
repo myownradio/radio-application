@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service
 class ChannelPlaybackServiceImpl : ChannelPlaybackService {
 
     override fun start(channel: Channel) {
-        throw UnsupportedOperationException("not implemented")
+
     }
 
     override fun stop(channel: Channel) {
-        throw UnsupportedOperationException("not implemented")
+
     }
 
     override fun seek(channel: Channel, amount: Long) {
-        throw UnsupportedOperationException("not implemented")
+
     }
 
     override fun startFromOffset(channel: Channel, offset: Long) {
-        throw UnsupportedOperationException("not implemented")
+        
     }
 
 }
