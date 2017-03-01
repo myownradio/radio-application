@@ -107,7 +107,7 @@ class ChannelControllerTest : AbstractControllerTest() {
                         .with(user(getUserDetails(ACTIVE_USER_EMAIL)))
         )
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.length()").value(3))
+                .andExpect(jsonPath("$.length()").value(5))
     }
 
     @Test
@@ -156,7 +156,7 @@ class ChannelControllerTest : AbstractControllerTest() {
 
         mvc.perform(get(API_CHANNEL_ENDPOINT).with(user))
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$.length()").value(4))
     }
 
     @Test
