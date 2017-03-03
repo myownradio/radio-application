@@ -84,7 +84,7 @@ class GenericFileService(
     }
 
     private fun mapBlobToObjectName(blob: Blob): String {
-        return "file_${blob.id}"
+        return "file_${"%05d".format(blob.id)}.blob"
     }
 
     data class AnalyzeResult(val hash: String, val length: Long)

@@ -38,8 +38,8 @@ class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: Fi
 
     override fun get(key: String): ObjectStorage.Object {
         val contentFile = getContentFile(key)
-
         val objectMetadata = readMetadata(key)
+
         val objectLength: Long = contentFile.length()
 
         return ObjectStorage.Object(key,  objectLength, objectMetadata, { FileInputStream(contentFile) })
