@@ -6,8 +6,8 @@ import javax.persistence.EntityNotFoundException
 
 @ControllerAdvice(annotations = arrayOf(RestController::class))
 class ControllerExceptionTranslator {
-    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
     @ExceptionHandler(EntityNotFoundException::class)
     fun handleException(e: EntityNotFoundException): Exception {
         return e
