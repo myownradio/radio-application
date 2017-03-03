@@ -1,6 +1,7 @@
 package com.radioteria.domain.entity
 
 import com.radioteria.auth.BelongsToUser
+import org.hibernate.annotations.Formula
 import javax.persistence.*
 
 @Entity
@@ -13,6 +14,9 @@ data class Track(
 
         @Column(name = "time_offset")
         var offset: Long = 0,
+
+        @Formula("time_offset + duration")
+        var ending: Long = 0,
 
         @Column(name = "title")
         var title: String = "",
@@ -31,8 +35,6 @@ data class Track(
         @ManyToOne(targetEntity = Channel::class)
         var channel: Channel
 ) : BelongsToUser {
-
-    val ending: Long get() = offset + duration
 
     override fun belongsTo(user: User): Boolean {
         return user.id == this.channel.user.id

@@ -1,6 +1,8 @@
 package com.radioteria.domain.service.impl
 
+import com.radioteria.domain.entity.Channel
 import com.radioteria.domain.entity.Track
+import com.radioteria.domain.ids
 import com.radioteria.domain.repository.TrackRepository
 import com.radioteria.domain.service.ChannelPlaybackService
 import com.radioteria.domain.service.ChannelTracklistService
@@ -18,11 +20,10 @@ class ChannelTracklistServiceImpl(
     @Transactional
     override fun add(track: Track) {
         val channel = track.channel
+        val nextOffset = trackRepository.getTracklistDurationByChannelId(channel.id)
 
-        val newTrackOffset = trackRepository.getTracklistDurationByChannelId(channel.id)
-
-        doSynchronized(track) { track ->
-            track.offset = newTrackOffset
+        doSynchronized(channel) {
+            track.offset = nextOffset
             trackRepository.save(track)
         }
     }
@@ -30,45 +31,36 @@ class ChannelTracklistServiceImpl(
     @Transactional
     override fun delete(track: Track) {
         val channel = track.channel
+        val tracksToUpdate = trackRepository.findAllByChannelIdAndOffsetGreaterThan(channel.id, track.offset)
 
-        doSynchronized(track) { track ->
+        doSynchronized(channel) {
+            trackRepository.increaseOffsetWhereIdIn(tracksToUpdate.ids(), -track.duration)
             trackRepository.delete(track)
-            trackRepository.moveOffsetsByAmountAfterGiven(channel.id, track.duration, track.offset)
         }
     }
 
     @Transactional
-    override fun move(track: Track, newPosition: Int) {
+    override fun move(track: Track, index: Int) {
         val channel = track.channel
-        val tracklist = trackRepository.findAllByChannelIdOrderByOffsetAsc(channel.id)
 
-        val targetTrack = tracklist[newPosition.dec()]
-
-        doSynchronized(track) { track ->
-//            trackRepository.moveOffsetsByAmountBetweenGiven(channel.id, track.duration, oneBound, secondBound)
+        doSynchronized(channel) {
+            TODO("not implemented")
         }
     }
 
-    private fun doSynchronized(track: Track, block: (Track) -> Unit) {
-        val channel = track.channel
-
+    private fun doSynchronized(channel: Channel, block: () -> Unit) {
         if (!channel.isStarted()) {
-            block.invoke(track)
-            return
+            return block.invoke()
         }
 
         val nowPlaying = nowPlayingService.getNowPlaying(channel)
 
-        block.invoke(track)
+        block.invoke()
 
-        val lastPlayingTrack = trackRepository.findOne(nowPlaying.track.id)
+        val updatedOffset = trackRepository.findOne(nowPlaying.track.id)?.offset
+                ?: return channelPlaybackService.seekChannel(channel, -nowPlaying.timePosition) // todo: May be buggy on bulk deletion
 
-        if (lastPlayingTrack == null) {
-            channelPlaybackService.startChannelFromTimePosition(channel, nowPlaying.track.offset)
-            return
-        }
-
-        val rewindAmount = lastPlayingTrack.offset - nowPlaying.track.offset
+        val rewindAmount = updatedOffset - nowPlaying.track.offset
 
         channelPlaybackService.seekChannel(channel, rewindAmount)
     }
