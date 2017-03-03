@@ -1,12 +1,16 @@
 package com.peacefulbit.util
 
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
+import java.io.*
 
 fun InputStream.copyToAndClose(target: OutputStream): Long {
     return use { that -> target.use { that.copyTo(it) } }
+}
+
+fun InputStream.toByteArray(): ByteArray {
+    return ByteArrayOutputStream().use {
+        copyTo(it)
+        it.toByteArray()
+    }
 }
 
 inline fun <R> InputStream.useAsFile(block: (file: File) -> R): R {
@@ -32,3 +36,4 @@ inline fun InputStream.forEachChunk(block: (byteArray: ByteArray) -> Unit): Long
 inline fun <R> (() -> InputStream).withStream(block: (InputStream) -> R): R {
     return invoke().use(block)
 }
+

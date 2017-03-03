@@ -15,8 +15,8 @@ interface TrackRepository : Repository<Track, Long> {
     @Query("SELECT COALESCE(SUM(t.duration), 0) FROM Track t WHERE t.channel.id = ?1")
     fun getTracklistDurationByChannelId(id: Long?): Long
 
-    @Query("FROM Track t WHERE t.offset >= ?2 AND t.offset + t.duration > ?2 AND t.channel.id = ?1 ORDER BY t.offset DESC")
-    fun findOneByChannelIdAndLapTime(channelId: Long?, LapTime: Long): Track?
+    @Query("FROM Track t WHERE t.offset <= ?2 AND t.offset + t.duration > ?2 AND t.channel.id = ?1 ORDER BY t.offset ASC")
+    fun findOneByChannelIdAndLapPosition(channelId: Long?, lapPosition: Long?): Track?
 
     @Modifying
     @Query("UPDATE Track t SET t.offset = t.offset + ?2 WHERE t.channel.id = ?1 AND t.offset > ?3 ORDER BY t.offset DESC")

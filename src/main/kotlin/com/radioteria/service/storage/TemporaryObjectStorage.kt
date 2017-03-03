@@ -1,6 +1,7 @@
 package com.radioteria.service.storage
 
 import com.peacefulbit.util.copyToAndClose
+import com.peacefulbit.util.toByteArray
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -12,10 +13,10 @@ import javax.annotation.PreDestroy
 
 @ConditionalOnProperty("radioteria.storage", havingValue = "temp")
 @Service
-class MockObjectStorage : ObjectStorage {
+class TemporaryObjectStorage : ObjectStorage {
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(MockObjectStorage::class.java)
+        val logger: Logger = LoggerFactory.getLogger(TemporaryObjectStorage::class.java)
     }
 
     private val content: MutableMap<String, ObjectStorage.Object> = mutableMapOf()
@@ -41,9 +42,7 @@ class MockObjectStorage : ObjectStorage {
     }
 
     override fun put(key: String, inputStream: InputStream, metadata: Metadata) {
-        val byteArray = ByteArrayOutputStream().use {
-            inputStream.copyTo(it); it.toByteArray()
-        }
+        val byteArray = inputStream.toByteArray()
         val length = byteArray.size.toLong()
         logger.info("Putting object (key=$key, size=$length, metadata=$metadata)")
         content.put(key, ObjectStorage.Object(key, length, metadata, { ByteArrayInputStream(byteArray) }))

@@ -8,28 +8,26 @@ import com.radioteria.service.core.TimeService
 import org.springframework.stereotype.Service
 
 @Service
-class NowPlayingServiceImpl(val timeService: TimeService, val trackRepository: TrackRepository) : NowPlayingService {
+class NowPlayingServiceImpl(val trackRepository: TrackRepository, val timeService: TimeService) : NowPlayingService {
 
     override fun getNowPlaying(channel: Channel): NowPlayingService.NowPlaying {
         val channelLapTime = getChannelLapTime(channel)
 
-        trackRepository.findOneByChannelIdAndLapTime(channel.id, channelLapTime)
+        val track = trackRepository.findOneByChannelIdAndLapPosition(channel.id, channelLapTime) ?:
+                throw IllegalStateException("Could not determine what is playing at $channelLapTime second(s) on channel $channel.")
 
-        trackRepository.findAllByChannelIdOrderByOffsetAsc(channel.id).forEach { track ->
-            if (track.offset <= channelLapTime && track.offset + track.duration > channelLapTime) {
-                val timePosition = channelLapTime - track.offset
-                return NowPlayingService.NowPlaying(track, timePosition)
-            }
-        }
+        val timePosition = channelLapTime - track.offset
 
-        throw IllegalStateException("Could not determine what is playing on channel $channel.")
+        return NowPlayingService.NowPlaying(track, timePosition)
     }
 
     override fun getChannelLapTime(channel: Channel): Long {
         val tracklistDuration = trackRepository.getTracklistDurationByChannelId(channel.id)
+
         if (tracklistDuration == 0L) {
-            throw IllegalStateException("Channel has no tracks.")
+            throw IllegalStateException("Channel $channel has no tracks.")
         }
+
         return getChannelUptime(channel) % tracklistDuration
     }
 
