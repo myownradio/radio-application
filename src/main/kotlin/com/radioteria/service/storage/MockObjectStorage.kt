@@ -42,8 +42,7 @@ class MockObjectStorage : ObjectStorage {
 
     override fun put(key: String, inputStream: InputStream, metadata: Metadata) {
         val byteArray = ByteArrayOutputStream().use {
-            inputStream.copyToAndClose(it)
-            it.toByteArray()
+            inputStream.copyTo(it); it.toByteArray()
         }
         val length = byteArray.size.toLong()
         logger.info("Putting object (key=$key, size=$length, metadata=$metadata)")
