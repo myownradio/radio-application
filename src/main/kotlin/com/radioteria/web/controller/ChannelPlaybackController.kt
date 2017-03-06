@@ -1,6 +1,7 @@
 package com.radioteria.web.controller
 
 import com.radioteria.domain.entity.Channel
+import com.radioteria.domain.entity.Track
 import com.radioteria.domain.service.ChannelPlaybackService
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
@@ -20,6 +21,15 @@ class ChannelPlaybackController(
     @PostMapping("start")
     fun start(@PathVariable("channelId") channel: Channel) {
         channelPlaybackService.startChannel(channel)
+    }
+
+    @PreAuthorize("#channel.belongsTo(principal.user) and #track.belongsTo(#channel)")
+    @PostMapping("start/{trackId}")
+    fun startFromTrack(
+            @PathVariable("channelId") channel: Channel,
+            @PathVariable("trackId") track: Track
+    ) {
+        channelPlaybackService.startChannelFromTimePosition(channel, track.offset)
     }
 
     @PreAuthorize("#channel.belongsTo(principal.user)")
