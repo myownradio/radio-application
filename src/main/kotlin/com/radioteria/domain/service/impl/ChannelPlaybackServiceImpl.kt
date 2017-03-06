@@ -7,18 +7,17 @@ import com.radioteria.service.core.TimeService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @Service
 class ChannelPlaybackServiceImpl(
         val timeService: TimeService,
         val channelRepository: ChannelRepository
 ) : ChannelPlaybackService {
 
-    @Transactional
     override fun startChannel(channel: Channel) {
         startChannelFromTimePosition(channel, 0)
     }
 
-    @Transactional
     override fun startChannelFromTimePosition(channel: Channel, timePosition: Long) {
         if (channel.isStarted()) {
             return
@@ -27,7 +26,6 @@ class ChannelPlaybackServiceImpl(
         channelRepository.save(channel)
     }
 
-    @Transactional
     override fun stopChannel(channel: Channel) {
         if (!channel.isStarted()) {
             return
@@ -36,7 +34,6 @@ class ChannelPlaybackServiceImpl(
         channelRepository.save(channel)
     }
 
-    @Transactional
     override fun seekChannel(channel: Channel, amount: Long) {
         if (!channel.isStarted()) {
             return
