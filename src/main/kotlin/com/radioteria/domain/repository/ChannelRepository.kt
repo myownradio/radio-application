@@ -13,5 +13,5 @@ interface ChannelRepository : Repository<Channel, Long> {
 
     @Modifying
     @Query("UPDATE Channel c SET c.startedAt = c.startedAt + ?2 WHERE c.id = ?1")
-    fun increaseStartedAt(channelId: Long, amount: Long)
+    fun increaseStartedAt(channelId: Long?, amount: Long)
 }
