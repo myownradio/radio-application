@@ -5,10 +5,7 @@ import com.radioteria.domain.entity.Track
 import com.radioteria.domain.service.ChannelPlaybackService
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/api/channel/{channelId}/control")
 @Secured("ROLE_USER")
@@ -37,6 +34,13 @@ class ChannelPlaybackController(
     fun stop(@PathVariable("channelId") channel: Channel) {
         channelPlaybackService.stopChannel(channel)
     }
+
+    @PreAuthorize("#channel.belongsTo(principal.user)")
+    @PostMapping("seek")
+    fun seek(@PathVariable("channelId") channel: Channel, @RequestParam("amount") amount: Long) {
+        channelPlaybackService.seekChannel(channel, amount)
+    }
+
 
     @PreAuthorize("#channel.belongsTo(principal.user)")
     @PostMapping("skip")

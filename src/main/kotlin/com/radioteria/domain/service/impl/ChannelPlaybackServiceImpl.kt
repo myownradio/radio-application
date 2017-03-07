@@ -48,7 +48,7 @@ class ChannelPlaybackServiceImpl(
 
     override fun seekChannel(channel: Channel, amount: Long) {
         channelStateService.failIfStopped(channel)
-        channelRepository.increaseStartedAt(channel.id, amount)
+        channelRepository.increaseStartedAt(channel.id, -amount)
         refreshChannelStartedAt(channel)
     }
 
