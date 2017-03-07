@@ -38,4 +38,17 @@ class ChannelPlaybackController(
         channelPlaybackService.stopChannel(channel)
     }
 
+    @PreAuthorize("#channel.belongsTo(principal.user)")
+    @PostMapping("skip")
+    fun skip(@PathVariable("channelId") channel: Channel) {
+        channelPlaybackService.skipTrackOnChannel(channel)
+    }
+
+
+    @PreAuthorize("#channel.belongsTo(principal.user)")
+    @PostMapping("rewind")
+    fun rewind(@PathVariable("channelId") channel: Channel) {
+        channelPlaybackService.rewindTrackOnChannel(channel)
+    }
+
 }

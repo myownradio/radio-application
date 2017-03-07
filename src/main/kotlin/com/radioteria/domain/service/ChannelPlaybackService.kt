@@ -8,4 +8,6 @@ interface ChannelPlaybackService {
     fun startChannelFromTimePosition(channel: Channel, timePosition: Long)
     fun stopChannel(channel: Channel)
     fun seekChannel(channel: Channel, amount: Long)
+    fun skipTrackOnChannel(channel: Channel)
+    fun rewindTrackOnChannel(channel: Channel)
 }
