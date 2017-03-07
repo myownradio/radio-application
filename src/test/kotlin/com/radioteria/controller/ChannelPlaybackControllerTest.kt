@@ -18,24 +18,6 @@ class ChannelPlaybackControllerTest : AbstractControllerTest() {
         return mvc.perform(get("/api/public/channel/$channelId/now"))
     }
 
-    fun testEverything() {
-        // assert that channel is stopped
-        // start channel from begin
-        // assert that channel started from begin
-        // scroll through a half of first track
-        // assert that scrolled through a half of first track
-        // scroll to next track (skip)
-        // assert that at the beginning of second track
-        // scroll through a half of second track
-        // assert that we are at the half...
-        // rewind current track
-        // assert that we are at the begin of second track again
-        // skip track
-        // assert that we are on third track
-        // skip track
-        // assert that we are at the beginning of playlist
-    }
-
     @Test
     fun testStartChannel() {
         performNowPlayingOnChannel(STOPPED_CHANNEL_ID)
