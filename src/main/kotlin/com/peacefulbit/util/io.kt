@@ -3,7 +3,7 @@ package com.peacefulbit.util
 import java.io.*
 
 fun InputStream.copyToAndClose(target: OutputStream): Long {
-    return use { that -> target.use { that.copyTo(it) } }
+    return target.use { copyTo(it) }
 }
 
 fun InputStream.toByteArray(): ByteArray {
@@ -15,8 +15,13 @@ fun InputStream.toByteArray(): ByteArray {
 
 inline fun <R> InputStream.useAsFile(block: (file: File) -> R): R {
     val tempFile = File.createTempFile("inputStream_", null)
-    use { it.copyTo(FileOutputStream(tempFile)) }
-    return block.invoke(tempFile).apply { tempFile.delete() }
+
+    try {
+        use { it.copyToAndClose(FileOutputStream(tempFile)) }
+        return block.invoke(tempFile)
+    } finally {
+        tempFile.delete()
+    }
 }
 
 inline fun InputStream.forEachChunk(block: (byteArray: ByteArray) -> Unit): Long {

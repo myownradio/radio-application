@@ -2,7 +2,6 @@ package com.radioteria.service.storage
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.radioteria.config.spring.logging.Logging
-import com.peacefulbit.util.unless
 import com.peacefulbit.util.copyToAndClose
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -46,7 +45,7 @@ class LocalObjectStorage(@Value("\${radioteria.storage.local.dir}") val root: Fi
     }
 
     override fun delete(key: String) {
-        unless (has(key)) {
+        if (!has(key)) {
             logger.warn("Object does not exist ({}).", key)
         }
 

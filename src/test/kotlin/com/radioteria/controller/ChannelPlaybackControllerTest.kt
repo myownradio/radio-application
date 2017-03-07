@@ -5,35 +5,56 @@ import com.radioteria.controller.ControllerTestConstants.PLAYING_CHANNEL_ID
 import com.radioteria.controller.ControllerTestConstants.STOPPED_CHANNEL_ID
 import com.radioteria.controller.ControllerTestConstants.THIS_USER
 import com.radioteria.controller.ControllerTestConstants.TRACKLESS_CHANNEL_ID
-import org.hamcrest.CoreMatchers.isA
 import org.junit.Test
+import org.hamcrest.CoreMatchers.*
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
+import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
 class ChannelPlaybackControllerTest : AbstractControllerTest() {
 
-    fun nowPlayingUrl(channelId: Int): String ="/api/public/channel/$channelId/now"
+    fun performNowPlayingOnChannel(channelId: Int): ResultActions {
+        return mvc.perform(get("/api/public/channel/$channelId/now"))
+    }
+
+    fun testEverything() {
+        // assert that channel is stopped
+        // start channel from begin
+        // assert that channel started from begin
+        // scroll through a half of first track
+        // assert that scrolled through a half of first track
+        // scroll to next track (skip)
+        // assert that at the beginning of second track
+        // scroll through a half of second track
+        // assert that we are at the half...
+        // rewind current track
+        // assert that we are at the begin of second track again
+        // skip track
+        // assert that we are on third track
+        // skip track
+        // assert that we are at the beginning of playlist
+    }
 
     @Test
-    fun startChannel() {
-        mvc.perform(get(nowPlayingUrl(STOPPED_CHANNEL_ID)))
+    fun testStartChannel() {
+        performNowPlayingOnChannel(STOPPED_CHANNEL_ID)
                 .andExpect(status().isBadRequest)
-                .andExpect(jsonPath("$.message").exists())
+                .andExpect(jsonPath("$.message").value(containsString("is not playing")))
 
         mvc.perform(post("/api/channel/$STOPPED_CHANNEL_ID/control/start")
                 .with(user(getUserDetails(THIS_USER))))
                 .andExpect(status().isOk)
 
-        mvc.perform(get(nowPlayingUrl(STOPPED_CHANNEL_ID)))
+        performNowPlayingOnChannel(STOPPED_CHANNEL_ID)
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.timePosition").value(0))
                 .andExpect(jsonPath("$.track.id").value(3))
     }
 
     @Test
-    fun stopChannel() {
-        mvc.perform(get(nowPlayingUrl(PLAYING_CHANNEL_ID)))
+    fun testStopChannel() {
+        performNowPlayingOnChannel(PLAYING_CHANNEL_ID)
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.track").exists())
                 .andExpect(jsonPath("$.timePosition").exists())
@@ -42,13 +63,13 @@ class ChannelPlaybackControllerTest : AbstractControllerTest() {
                 .with(user(getUserDetails(THIS_USER))))
                 .andExpect(status().isOk)
 
-        mvc.perform(get(nowPlayingUrl(PLAYING_CHANNEL_ID)))
+        performNowPlayingOnChannel(PLAYING_CHANNEL_ID)
                 .andExpect(status().isBadRequest)
                 .andExpect(jsonPath("$.message").exists())
     }
 
     @Test
-    fun startEmptyChannel() {
+    fun testStartEmptyChannel() {
         mvc.perform(post("/api/channel/$TRACKLESS_CHANNEL_ID/control/start")
                 .with(user(getUserDetails(THIS_USER))))
                 .andExpect(status().isBadRequest)
