@@ -3,6 +3,8 @@ package com.radioteria.controller
 import org.junit.Test
 
 import org.hamcrest.CoreMatchers.*
+import org.junit.Before
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -14,8 +16,10 @@ class ChannelPlaybackFullTest : AbstractControllerTest() {
     val channelId = 7
     val channelOwner = "user@mail.com"
 
+    val user: UserDetails by lazy { getUserDetails(channelOwner) }
+
     @Test
-    fun testEverything() {
+    fun allChannelPlaybackCycle() {
         assertThatChannelIsStopped()
         performAction("start")
         verifyNowPlaying(trackId = 3, timePosition = 0L)
@@ -47,7 +51,7 @@ class ChannelPlaybackFullTest : AbstractControllerTest() {
         val multivaluedMap = LinkedMultiValueMap(params.mapValues { listOf(it.value) })
 
         mvc.perform(post("/api/channel/$channelId/control/$action")
-                .with(user(getUserDetails(channelOwner)))
+                .with(user(user))
                 .params(multivaluedMap))
 
                 .andExpect(status().isOk)
