@@ -3,7 +3,6 @@ package com.radioteria.controller
 import org.junit.Test
 
 import org.hamcrest.CoreMatchers.*
-import org.junit.Ignore
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -14,9 +13,6 @@ class ChannelPlaybackFullTest : AbstractControllerTest() {
 
     val channelId = 7
     val channelOwner = "user@mail.com"
-
-    fun getNowPlayingUrl() = "/api/public/channel/$channelId/now"
-    fun getChannelActionUrl(action: String) = "/api/channel/$channelId/control/$action"
 
     @Test
     fun testEverything() {
@@ -58,13 +54,13 @@ class ChannelPlaybackFullTest : AbstractControllerTest() {
     }
 
     private fun assertThatChannelIsStopped() {
-        mvc.perform(get(getNowPlayingUrl()))
+        mvc.perform(get("/api/public/channel/$channelId/now"))
                 .andExpect(status().isBadRequest)
                 .andExpect(jsonPath("$.message").value(containsString("is not started")))
     }
 
     private fun getNowPlaying(): ResultActions {
-        return mvc.perform(get(getNowPlayingUrl()))
+        return mvc.perform(get("/api/public/channel/$channelId/now"))
                 .andExpect(status().isOk)
     }
 
