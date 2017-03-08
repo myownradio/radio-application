@@ -3,7 +3,6 @@ package com.radioteria.controller
 import org.junit.Test
 
 import org.hamcrest.CoreMatchers.*
-import org.junit.Before
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
 import org.springframework.test.web.servlet.ResultActions

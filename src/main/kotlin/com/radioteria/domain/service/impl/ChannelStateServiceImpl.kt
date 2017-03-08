@@ -23,7 +23,7 @@ class ChannelStateServiceImpl(val trackRepository: TrackRepository) : ChannelSta
 
     override fun failIfStarted(channel: Channel) {
         if (channel.isStarted()) {
-            throw ChannelStateException("Channel $channel is started.")
+            throw ChannelStateException("Channel $channel is not stopped.")
         }
     }
 

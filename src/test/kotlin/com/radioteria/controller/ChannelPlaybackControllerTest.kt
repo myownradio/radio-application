@@ -22,7 +22,7 @@ class ChannelPlaybackControllerTest : AbstractControllerTest() {
     fun testStartChannel() {
         performNowPlayingOnChannel(STOPPED_CHANNEL_ID)
                 .andExpect(status().isBadRequest)
-                .andExpect(jsonPath("$.message").value(containsString("is not playing")))
+                .andExpect(jsonPath("$.message").value(containsString("is not started")))
 
         mvc.perform(post("/api/channel/$STOPPED_CHANNEL_ID/control/start")
                 .with(user(getUserDetails(THIS_USER))))
