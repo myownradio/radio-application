@@ -30,8 +30,8 @@ class ChannelPlaybackServiceImpl(
     }
 
     override fun startChannelFromTimePosition(channel: Channel, timePosition: Long) {
-        channelStateService.failIfStarted(channel)
-        channelStateService.failIfEmpty(channel)
+        channelStateService.expectIsStopped(channel)
+        channelStateService.expectNotEmpty(channel)
         channel.startedAt = timeService.getTime() - timePosition
         channelRepository.save(channel)
 
@@ -39,7 +39,7 @@ class ChannelPlaybackServiceImpl(
     }
 
     override fun stopChannel(channel: Channel) {
-        channelStateService.failIfStopped(channel)
+        channelStateService.expectIsStarted(channel)
         channel.startedAt = null
         channelRepository.save(channel)
 
@@ -47,7 +47,7 @@ class ChannelPlaybackServiceImpl(
     }
 
     override fun seekChannel(channel: Channel, amount: Long) {
-        channelStateService.failIfStopped(channel)
+        channelStateService.expectIsStarted(channel)
         channelRepository.increaseStartedAt(channel.id, -amount)
         refreshChannelStartedAt(channel)
     }
