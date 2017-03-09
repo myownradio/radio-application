@@ -15,7 +15,7 @@ class ChannelStateServiceImpl(val trackRepository: TrackRepository) : ChannelSta
         }
     }
 
-    override fun expectNotEmpty(channel: Channel) {
+    override fun expectIsNotEmpty(channel: Channel) {
         if (0L == trackRepository.getTracklistDurationByChannelId(channel.id)) {
             throw ChannelStateException("Channel $channel has no tracks.")
         }

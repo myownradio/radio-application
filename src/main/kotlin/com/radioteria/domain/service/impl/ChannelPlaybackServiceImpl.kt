@@ -31,7 +31,7 @@ class ChannelPlaybackServiceImpl(
 
     override fun startChannelFromTimePosition(channel: Channel, timePosition: Long) {
         channelStateService.expectIsStopped(channel)
-        channelStateService.expectNotEmpty(channel)
+        channelStateService.expectIsNotEmpty(channel)
         channel.startedAt = timeService.getTime() - timePosition
         channelRepository.save(channel)
 

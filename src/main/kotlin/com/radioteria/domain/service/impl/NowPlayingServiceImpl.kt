@@ -30,7 +30,7 @@ class NowPlayingServiceImpl(
     private fun getChannelLapTime(channel: Channel): Long {
         val channelUptime = getChannelUptime(channel)
 
-        channelStateService.expectNotEmpty(channel)
+        channelStateService.expectIsNotEmpty(channel)
 
         val tracklistDuration = trackRepository.getTracklistDurationByChannelId(channel.id)
 
