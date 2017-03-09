@@ -8,4 +8,6 @@ interface UserRepository : Repository<User, Long> {
     fun findOne(id: Long?): User?
     fun findByEmail(@Param(value = "email") email: String): User?
     fun findAll(): List<User>
+    fun save(user: User)
+    fun delete(user: User)
 }
