@@ -21,11 +21,4 @@ class LoginController {
     fun me(): ResponseEntity<Authentication> {
         return ResponseEntity.ok(SecurityContextHolder.getContext().authentication)
     }
-
-    @GetMapping("/")
-    fun index(session: HttpSession): ResponseEntity<String> {
-        val counter: Long = session.getAttribute("counter") as? Long ?: 0
-        session.setAttribute("counter", counter + 1)
-        return ResponseEntity.ok("Hello, $counter!")
-    }
 }
