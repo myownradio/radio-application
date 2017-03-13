@@ -5,9 +5,7 @@ import ReactDOM from 'react-dom';
 
 import Greeter from './components/Greeter';
 
-const ivanGreeter = <Greeter name="Ivan"/>;
-
 ReactDOM.render(
-    ivanGreeter,
+    <Greeter name="Ivan"/>,
     document.getElementById('test')
 );
