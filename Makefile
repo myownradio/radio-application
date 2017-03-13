@@ -19,5 +19,8 @@ clean:
 install:
 	mvn install
 
+fast-install:
+	mvn -Dmaven.test.skip=true install
+
 run:
 	mvn spring-boot:run
