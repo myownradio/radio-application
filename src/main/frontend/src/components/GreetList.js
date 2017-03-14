@@ -13,6 +13,7 @@ class GreetList extends Component {
         const greeterList = this.props.names.map((name, i) =>
             <Greeter key={i} name={name} />
         );
+
         return <ul>{greeterList}</ul>;
     }
 }
