@@ -1,9 +1,6 @@
 // @flow
 
-import React from 'react';
-import { Component, PropTypes } from 'react';
-
-const Greet = (name: number): number => `Hello, ${name}!`;
+import React, { Component, PropTypes } from 'react';
 
 class Greeter extends Component {
     static propTypes = {
@@ -11,7 +8,7 @@ class Greeter extends Component {
     };
 
     render() {
-        return <span>{Greet(this.props.name)}</span>
+        return <li>Hello, {this.props.name}!</li>;
     }
 }
 

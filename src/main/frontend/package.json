@@ -6,8 +6,7 @@
   "scripts": {
     "watch": "webpack -d --watch",
     "dev-build": "webpack -d --display-modules",
-    "prod-build": "webpack -d -p",
-    "webpack": "webpack"
+    "prod-build": "webpack -d -p"
   },
   "repository": {
     "type": "git",
