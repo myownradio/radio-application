@@ -3,13 +3,15 @@
 import React from 'react';
 import { Component, PropTypes } from 'react';
 
+const Greet = (name: number): number => `Hello, ${name}!`;
+
 class Greeter extends Component {
     static propTypes = {
         name: PropTypes.string.isRequired
     };
 
     render() {
-        return <span>Hello, {this.props.name}!</span>
+        return <span>{Greet(this.props.name)}</span>
     }
 }
 
