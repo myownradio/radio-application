@@ -26,4 +26,4 @@ run:
 	mvn spring-boot:run
 
 webpack-watch:
-	npm run watch --prefix src/main/frontend
+	npm run watch
