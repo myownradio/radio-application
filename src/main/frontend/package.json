@@ -18,6 +18,7 @@
     "react-dom": "*"
   },
   "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
     "babel-core": "*",
     "babel-loader": "*",
     "babel-plugin-syntax-flow": "*",

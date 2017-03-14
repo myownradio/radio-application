@@ -17,11 +17,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: extractStyles.extract(['css-loader'])
+                loader: extractStyles.extract(['css-loader', 'autoprefixer-loader'])
             },
             {
                 test: /\.less$/,
-                loader: extractStyles.extract(['css-loader', 'less-loader'])
+                loader: extractStyles.extract(['css-loader', 'autoprefixer-loader', 'less-loader'])
             }
         ]
     },
