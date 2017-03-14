@@ -24,7 +24,12 @@
     "babel-plugin-transform-runtime": "*",
     "babel-preset-react": "*",
     "babel-preset-stage-0": "*",
+    "css-loader": "^0.27.3",
+    "extract-text-webpack-plugin": "^2.1.0",
     "flow-bin": "*",
+    "less": "^2.7.2",
+    "less-loader": "^3.0.0",
+    "style-loader": "^0.13.2",
     "webpack": "*"
   }
 }

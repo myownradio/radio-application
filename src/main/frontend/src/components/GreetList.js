@@ -4,6 +4,8 @@ import React, { Component, PropTypes } from 'react';
 
 import Greeter from './Greeter';
 
+import './GreeterList.less';
+
 class GreetList extends Component {
     static propTypes = {
         names: PropTypes.arrayOf(PropTypes.string).isRequired
@@ -14,7 +16,7 @@ class GreetList extends Component {
             <Greeter key={i} name={name} />
         );
 
-        return <ul>{greeterList}</ul>;
+        return <ul className="foo">{greeterList}</ul>;
     }
 }
 

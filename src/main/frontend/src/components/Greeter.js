@@ -8,7 +8,7 @@ class Greeter extends Component {
     };
 
     render() {
-        return <li>Hello, {this.props.name}!</li>;
+        return <li className="bar">Hello, {this.props.name}!</li>;
     }
 }
 
