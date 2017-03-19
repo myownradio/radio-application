@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Greeter from './Greeter';
 
-import './GreeterList.less';
+import css from './GreeterList.less';
 
 class GreetList extends Component {
     static propTypes = {
@@ -16,7 +16,7 @@ class GreetList extends Component {
             <Greeter key={i} name={name} />
         );
 
-        return <ul className="foo">{greeterList}</ul>;
+        return <ul className={css.foo}>{greeterList}</ul>;
     }
 }
 

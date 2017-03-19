@@ -18,7 +18,7 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "autoprefixer-loader": "*",
+    "autoprefixer": "*",
     "babel-core": "*",
     "babel-loader": "*",
     "babel-plugin-syntax-flow": "*",
@@ -30,6 +30,7 @@
     "flow-bin": "*",
     "less": "*",
     "less-loader": "*",
+    "postcss-loader": "*",
     "style-loader": "*",
     "webpack": "*"
   }
