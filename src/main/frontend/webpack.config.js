@@ -9,7 +9,7 @@ module.exports = {
     entry: "./src/index.js",
     output: {
         path: '../../../target/classes/static/',
-        filename: "app.bundle.js"
+        filename: "scripts.js"
     },
     module: {
         loaders: [

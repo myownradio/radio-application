@@ -1,0 +1,11 @@
+{
+  "userProfile": {
+    "email": "",
+    "name": "",
+    "channels": []
+  },
+  "radioPlayer": {
+    "state": "PLAYING|STOPPED|BUFFERING|ERROR",
+    "channel": "Awesome Radio"
+  }
+}

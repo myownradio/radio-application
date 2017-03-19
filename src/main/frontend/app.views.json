@@ -1,0 +1,34 @@
+{
+  "/": {
+    "description": "Start page",
+    "sections": ["markup", "landing"],
+  },
+  "/login/": {
+    "description": "Login page",
+    "sections": ["markup", "login-form"]
+  },
+  "/signup/": {
+    "description": "Registration page",
+    "sections": ["markup", "registration-form"]
+  },
+  "/channels/": {
+    "description": "Radio stations catalog",
+    "sections": ["markup", "list-of-radio-stations"]
+  },
+  "/channels/:channelId/": {
+    "description": "Single radio station page",
+    "sections": ["markup", "single-radio-station", "similar-radio-stations"]
+  },
+  "/profile/": {
+    "description": "User's profile page",
+    "sections": ["markup", "user-dashboard", "user-stats"]
+  },
+  "/profile/channels/": {
+    "description": "List of user's radio stations in his profile",
+    "sections": ["markup", "user-channels"]
+  },
+  "/profile/channels/:channelId/": {
+    "description": "Tracklist of user's radio station",
+    "sections": ["markup", "channel-controls", "playlist-controls", "channel-playlist"]
+  }
+}
