@@ -15,7 +15,9 @@
   "author": "Roman Lakhtadyr <roman.lakhtadyr@gmail.com>",
   "dependencies": {
     "react": "*",
-    "react-dom": "*"
+    "react-dom": "*",
+    "react-redux": "*",
+    "redux": "*"
   },
   "devDependencies": {
     "autoprefixer": "*",
