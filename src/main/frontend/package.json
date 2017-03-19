@@ -25,6 +25,7 @@
     "babel-plugin-transform-runtime": "*",
     "babel-preset-react": "*",
     "babel-preset-stage-0": "*",
+    "classnames": "*",
     "css-loader": "*",
     "extract-text-webpack-plugin": "*",
     "flow-bin": "*",

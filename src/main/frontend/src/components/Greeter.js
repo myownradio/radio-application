@@ -1,17 +1,15 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
 import css from './GreeterList.less';
 
-class Greeter extends Component {
-    static propTypes = {
-        name: PropTypes.string.isRequired
-    };
+const Greeter = ({ name }) => {
+    return <li className={css.bar}>Hello, {name}!</li>;
+};
 
-    render() {
-        return <li className={css.bar}>Hello, {this.props.name}!</li>;
-    }
-}
+Greeter.propTypes = {
+    name: PropTypes.string.isRequired
+};
 
 export default Greeter;
