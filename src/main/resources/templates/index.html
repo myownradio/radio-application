@@ -8,10 +8,13 @@
 <body>
 <div id="test" ng-app="TestApp">
     <div ng-controller="TestController">
-        <div class="ng-cloak">Hello, {{ value }}!</div>
+        <div>Hello, <span ng-bind="value"></span>!</div>
         <label>
             <input type="text" ng-model="value" />
         </label>
+    </div>
+    <div ng-controller="TimeController">
+        <div>Time: <span ng-bind="time"></span></div>
     </div>
 </div>
 </body>
